@@ -1,0 +1,60 @@
+#pragma once
+
+#include "Matrix.hpp"
+#include "Vector.hpp"
+
+static float Clamp01(float t)
+{
+    if (t < 0.0f) return 0.0f;
+    if (t > 1.0f) return 1.0f;
+    return t;
+}
+
+static float Lerp(const float a, const float b, float t)
+{
+    t = Clamp01(t);
+    return a + (b - a) * t;
+}
+
+template<std::size_t R, std::size_t C, typename T>
+static mat<R,C, T> Lerp(const mat<R,C, T>& a, const mat<R,C, T>& b, float t)
+{
+    t = Clamp01(t);
+    mat<R, C, T> result;
+
+    for (size_t r = 0; r < R; ++r)
+    {
+        for (size_t c = 0; c < C; ++c)
+        {
+            result(r,c) = static_cast<T>(
+                a(r,c) + (b(r,c) - a(r,c)) * t
+            );
+        }
+    }
+    return result;
+}
+
+template <size_t C, typename T>
+static vec<C, T> Lerp(const vec<C, T>& a, const vec<C, T>& b, float t)
+{
+    t = Clamp01(t);
+    vec<C, T> result;
+    for (size_t i = 0; i < C; ++i)
+        result[i] = static_cast<T>(a[i] + (b[i] - a[i]) * t);
+    return result;
+}
+
+template <size_t C, typename T>
+vec<C,T> LinearCombination(const std::vector< vec<C,T> >& vectors, const vec<C,T>& scalar)
+{
+    vec<C,T> result{};
+
+    for (size_t i = 0; i < vectors.size(); i++)
+    {
+        vec<C,T> tmp = vectors[i];
+        tmp.Scale(scalar[i]);
+        result.Add(tmp);
+    }
+
+    return result;
+}

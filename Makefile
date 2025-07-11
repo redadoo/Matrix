@@ -8,7 +8,7 @@ CXXFLAGS    := -std=c++17 -O3 -Wall -Wextra -Werror
 # Directories
 SRCDIR      := src
 OBJDIR      := .obj
-INCDIRS     := src src/vectors src/matrix
+INCDIRS     := src src/vectors src/matrix src/test src/utils
 
 # Source files
 SRCFILES    := main.cpp

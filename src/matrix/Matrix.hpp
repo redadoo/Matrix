@@ -5,11 +5,15 @@
 #include <array>
 #include <cassert>
 #include <iomanip>
+#include <immintrin.h>
 
 template<std::size_t R, std::size_t C, typename T>
 struct mat
 {
 	std::array<T, R * C> data{};
+
+	mat(const mat& other) = default;
+	mat() = default;
 
 	T& operator()(std::size_t row, std::size_t col)
 	{
@@ -21,6 +25,18 @@ struct mat
 	{
 		assert(row < R && col < C);
 		return data[row * C + col];
+	}
+
+	mat& operator=(const mat& other)
+	{
+		if (this != &other)
+			data = other.data;
+		return *this;
+	}
+
+	bool operator==(const mat& other) const
+	{
+		return data == other.data;
 	}
 
 	void Add(const mat& other)
@@ -45,7 +61,7 @@ struct mat
 		for (size_t i = 0; i < data.size(); i++)
 			this->data[i] -= other.data[i]; 
 	}
-
+	
 	friend std::ostream& operator<<(std::ostream& os, const mat& m)
 	{
 		constexpr int width = 2; 
