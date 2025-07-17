@@ -5,7 +5,10 @@
 
 int main(void)
 {
-	TestLerp();
+	TestAngleCos();
+	// TestNorm();
+	// TestDot();
+	// TestLerp();
 	// RunVectorTest();
 	// TestVectorOperations();
     // TestMatrixOperations();

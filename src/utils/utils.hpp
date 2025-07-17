@@ -3,6 +3,8 @@
 #include "Matrix.hpp"
 #include "Vector.hpp"
 
+#include <cmath>
+
 static float Clamp01(float t)
 {
     if (t < 0.0f) return 0.0f;
@@ -57,4 +59,26 @@ vec<C,T> LinearCombination(const std::vector< vec<C,T> >& vectors, const vec<C,T
     }
 
     return result;
+}
+
+template <size_t C, typename T>
+float Magnitude(vec<C,T> vector) 
+{
+    float res = 0.0f;
+    for (size_t i = 0; i < vector.size(); i++)
+        res = vector[i] * vector[i];
+    return std::sqrt(res); 
+}
+
+template <size_t C, typename T>
+float angle_cos(const vec<C, T>& first, const vec<C, T>& second) 
+{
+    float dot = first.Dot(second);
+    float mag1 = first.norm();
+    float mag2 = second.norm();
+
+    if (mag1 == 0.0f || mag2 == 0.0f)
+        return 0.0f;
+
+    return dot / (mag1 * mag2);
 }
