@@ -5,7 +5,9 @@
 
 int main(void)
 {
-	TestAngleCos();
+	TestCrossProduct();
+	// TestDeterminant();
+	// TestAngleCos();
 	// TestNorm();
 	// TestDot();
 	// TestLerp();

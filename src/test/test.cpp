@@ -220,3 +220,25 @@ void TestAngleCos()
 	vec<3, float> v5{4.0f, 5.0f, 6.0f};
 	std::cout << angle_cos(u5, v5) << std::endl;
 }
+
+void TestDeterminant()
+{
+	vec<2, float> v1{1.0f, 5.0f};
+	vec<2, float> v2{3.0f, 4.0f};
+	std::cout << determinant(v1, v2) << std::endl;
+}
+
+void TestCrossProduct()
+{
+	vec<3, float> u1{0., 0., 1.};
+	vec<3, float> v1{1., 0., 0.};
+	std::cout << cross_product(u1, v1) << std::endl;
+
+	vec<3, float> u2{1., 2., 3.};
+	vec<3, float> v2{4., 5., 6.};
+	std::cout << cross_product(u2, v2) << std::endl;
+
+	vec<3, float> u3{4., 2., -3.};
+	vec<3, float> v3{-2., -5., 16.};
+	std::cout << cross_product(u3, v3) << std::endl;
+}

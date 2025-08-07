@@ -76,4 +76,6 @@ make run
 
 * [Vector Types and Debug Performance](https://blog.s-schoener.com/2025-08-07-vector-debug-codegen/)
 
+* [simd](http://const.me/articles/simd/simd.pdf)
+
 ---
