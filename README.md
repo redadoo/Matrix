@@ -12,6 +12,7 @@
 * [Technical Constraints](#technical-constraints)
 * [Usage](#usage)
 * [Resources](#resources)
+* [Articles & Further Reading](#articles--further-reading)
 
 ## About
 
@@ -66,5 +67,13 @@ make run
 ## Resources
 
 * [Essence of Linear Algebra — 3Blue1Brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
+
+---
+
+## Articles & Further Reading
+
+* [Vector Math Library Codegen in Debug](https://aras-p.info/blog/2024/09/14/Vector-math-library-codegen-in-Debug/)
+
+* [Vector Types and Debug Performance](https://blog.s-schoener.com/2025-08-07-vector-debug-codegen/)
 
 ---
