@@ -5,6 +5,8 @@
 ![GitHub stars](https://img.shields.io/github/stars/redadoo/matrix?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/redadoo/matrix?style=social)
 
+---
+
 ## Table of Contents
 
 * [About](#about)
@@ -13,6 +15,9 @@
 * [Usage](#usage)
 * [Resources](#resources)
 * [Articles & Further Reading](#articles--further-reading)
+* [Other Math Libraries](#other-math-libraries)
+
+---
 
 ## About
 
@@ -37,6 +42,8 @@ Read the [Subject](./en.subject.pdf) for the full details.
   * Inverse and projection matrix (bonus)
 * Provide a `main.cpp` with test cases for each operation.
 
+---
+
 ## Technical Constraints
 
 * Language: C++
@@ -49,6 +56,8 @@ Read the [Subject](./en.subject.pdf) for the full details.
 * Respect the stated time and space complexity per exercise
 * All matrices must use **column-major order**
 * Provide a working `Makefile`
+
+---
 
 ## Usage
 
@@ -63,6 +72,7 @@ To build and run the test executable:
 ```bash
 make run
 ```
+---
 
 ## Resources
 
@@ -79,3 +89,12 @@ make run
 * [simd](http://const.me/articles/simd/simd.pdf)
 
 ---
+
+## Other Math Libraries
+
+For further reading and reference, here are some math and linear algebra libraries:
+
+* **[GLM](https://github.com/g-truc/glm)**
+* **[HLSL++](https://github.com/redorav/hlslpp)**
+* **[linalg](https://github.com/sgorsten/linalg)**
+* **[lyah](https://github.com/atalantestudio/lyah)**
