@@ -65,7 +65,7 @@ namespace Maft
 	template<std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<R, C, T> Lerp(const Matrix<R, C, T>& a, const Matrix<R, C, T>& b, float t)
 	{
-		t = Clamp01(t);
+		t = clamp01(t);
 		Matrix<R, C, T> result;
 
 		for (size_t r = 0; r < R; ++r)

@@ -3,7 +3,6 @@
 #include "utils.hpp"
 
 #include <iostream>
-#include <cmath>
 #include <cassert>
 
 namespace Maft
@@ -80,7 +79,7 @@ namespace Maft
 		for (size_t i = 0; i < C; i++)
 			res += data[i] * data[i];
 		// TODO: remove replace std::sqrt
-		return std::sqrt(res);
+		return sqrt(res);
 	}
 
 	template<std::size_t C, typename T>
@@ -104,7 +103,7 @@ namespace Maft
 	template <size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T> Vector<C, T>::Lerp(const Vector<C, T>& a, const Vector<C, T>& b, float t)
 	{
-		t = Clamp01(t);
+		t = clamp01(t);
 		Vector<C, T> result;
 		for (size_t i = 0; i < C; ++i)
 			result[i] = static_cast<T>(a[i] + (b[i] - a[i]) * t);
@@ -131,8 +130,7 @@ namespace Maft
 		float res = 0.0f;
 		for (size_t i = 0; i < vector.size(); i++)
 			res = vector[i] * vector[i];
-		// TODO: remove replace std::sqrt
-		return std::sqrt(res); 
+		return sqrt(res); 
 	}
 
 	// TODO: rewrite
