@@ -1,7 +1,6 @@
 #pragma once
 
-#include "setup.hpp"
-#include <array>
+#include "Vector.hpp"
 
 namespace Maft
 {
