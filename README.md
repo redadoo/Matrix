@@ -76,15 +76,16 @@ make run
 
 ## Resources
 
-* [Essence of Linear Algebra — 3Blue1Brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
-* [Linear Algebra in C++](https://www.youtube.com/watch?v=VofMMbD2QtQ&list=PL3WoIG-PLjSv9vFx2dg0BqzDZH_6qzF8-)
+* [Essence of linear algebra — 3Blue1Brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
+* [Linear algebra in C++](https://www.youtube.com/watch?v=VofMMbD2QtQ&list=PL3WoIG-PLjSv9vFx2dg0BqzDZH_6qzF8-)
+* [Matrix vector multiplication](https://mathinsight.org/matrix_vector_multiplication)
 
 ---
 
 ## Articles & Further Reading
 
-* [Vector Math Library Codegen in Debug](https://aras-p.info/blog/2024/09/14/Vector-math-library-codegen-in-Debug/)
-* [Vector Types and Debug Performance](https://blog.s-schoener.com/2025-08-07-vector-debug-codegen/)
+* [Vector math library codegen in debug](https://aras-p.info/blog/2024/09/14/Vector-math-library-codegen-in-Debug/)
+* [Vector types and debug performance](https://blog.s-schoener.com/2025-08-07-vector-debug-codegen/)
 * [simd](http://const.me/articles/simd/simd.pdf)
 
 ---
