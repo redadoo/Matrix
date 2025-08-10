@@ -3,6 +3,7 @@
 #include "utils.hpp"
 #include <cassert>
 #include <iomanip>
+#include "Matrix.hpp"
 
 namespace Maft
 {
@@ -62,9 +63,9 @@ namespace Maft
 			this->data[i] -= other.data[i]; 
 	}
 
-	template<std::size_t R, std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<R, C, T> Lerp(const Matrix<R, C, T>& a, const Matrix<R, C, T>& b, float t)
-	{
+    template <std::size_t R, std::size_t C, typename T>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> Matrix<R, C, T>::Lerp(const Matrix<R, C, T> &a, const Matrix<R, C, T> &b, float t)
+    {
 		t = clamp01(t);
 		Matrix<R, C, T> result;
 
@@ -76,6 +77,20 @@ namespace Maft
 					a(r,c) + (b(r,c) - a(r,c)) * t
 				);
 			}
+		}
+		return result;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T> Matrix<R, C, T>::multiply_vector(const Vector<C, T>& v) const
+	{
+		Vector<R, T> result;
+		for (std::size_t r = 0; r < R; ++r)
+		{
+			T sum = T{};
+			for (std::size_t c = 0; c < C; ++c)
+				sum += (*this)(r, c) * v[c];
+			result[r] = sum;
 		}
 		return result;
 	}

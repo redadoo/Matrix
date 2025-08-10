@@ -3,7 +3,13 @@
 
 int main(void)
 {
-	RunVectorTest();
-
+    RunVectorTest();
+    TestVectorOperations();
+    TestMatrixOperations();
+    TestLinearCombination();
+    TestLerp();
+    TestDot();
+    TestNorm();
+    TestAngleCos();
 	return 0;
 }
