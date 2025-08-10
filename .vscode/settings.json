@@ -47,6 +47,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "chrono": "cpp",
-        "ratio": "cpp"
-    }
+        "ratio": "cpp",
+        "cassert": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

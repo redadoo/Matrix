@@ -1,107 +1,43 @@
 #pragma once
 
+#include "setup.hpp"
 #include <cstddef>
-#include <ostream>
 #include <array>
-#include <vector>
-#include <cmath>
+#include <iostream>
 
-template<std::size_t C, typename T>
-struct vec
+namespace Maft
 {
-	std::array<T,C> data{};
+    template<std::size_t C, typename T>
+    struct Vector;
 
-	vec() = default;
-	vec(const vec& other) = default;
-	 
-	T& operator[](std::size_t i) { return data[i]; }
-	const T& operator[](std::size_t i) const { return data[i]; }
-	
-	vec& operator=(const vec& other)
-	{
-		if (this != &other)
-			data = other.data;
-		return *this;
-	}
+    template<std::size_t C, typename T>
+    std::ostream& operator<<(std::ostream& os, const Vector<C, T>& v);
 
-	bool operator==(const vec& other) const
-	{
-		return data == other.data;
-	}
-	
-	void Add(const vec& other) 
-	{
-		for (size_t i = 0; i < C; i++)
-			this->data[i] += other.data[i]; 
-	}
+    template<std::size_t C, typename T>
+    struct Vector
+    {
+        std::array<T, C> data{};
 
-	void Subtract(const vec& other) 
-	{
-		for (size_t i = 0; i < C; i++)
-			this->data[i] -= other.data[i]; 
-	}
+        Vector() = default;
+        Vector(const Vector& other) = default;
 
-	void Scale(const vec& other)
-	{
-		for (size_t i = 0; i < C; i++)
-			this->data[i] *= other.data[i]; 
-	}
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator[](std::size_t i);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator[](std::size_t i) const;
 
-	void Scale(const T& scalar)
-	{
-		for (size_t i = 0; i < C; i++)
-			this->data[i] *= scalar;
-	}
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector& operator=(const Vector& other);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR bool operator==(const Vector& other) const;
 
-	float Dot(const vec& other) const
-	{
-		float final_value = 0; 
-		for (size_t i = 0; i < C; i++)
-		{
-			float value = this->data[i] * other.data[i];
-			final_value += value;
-		}
-		return final_value;
-	}
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Add(const Vector& other);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Vector& other);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Vector& other);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const T& scalar);
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float Dot(const Vector& other) const;
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm() const;
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm_1() const;
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm_inf() const;
 
-	float norm() const
-	{
-		float res = 0;
-		for (size_t i = 0; i < C; i++)
-			res += this->data[i] * this->data[i]; 
-		return std::sqrt(res);
-	}
+        friend std::ostream& operator<< <>(std::ostream& os, const Vector<C, T>& v);
+    };
+}
 
-	float norm_1() const
-	{
-		float res = 0;
-		for (size_t i = 0; i < C; i++)
-			res += std::abs(this->data[i]);
-		return res;
-	}
-
-	float norm_inf() const
-	{
-		float max = std::abs(this->data[0]);
-		for (size_t i = 1; i < C; i++)
-		{
-			float tmp = std::abs(this->data[i]);
-			if (tmp > max)
-				max = tmp;
-		}
-		return max;
-	}
-
-
-	friend std::ostream& operator<<(std::ostream& os, const vec<C, T>& v)
-	{
-		os << "[";
-		for (std::size_t i = 0; i < C; ++i) 
-		{
-			os << v[i];
-			if (i != C - 1) os << ", ";
-		}
-		os << "]";
-		return os;
-	}
-};
+#include "Vector.inl"

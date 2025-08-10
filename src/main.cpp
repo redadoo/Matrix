@@ -5,16 +5,16 @@
 
 int main(void)
 {
-	TestCrossProduct();
+	// TestCrossProduct();
 	// TestDeterminant();
 	// TestAngleCos();
 	// TestNorm();
 	// TestDot();
 	// TestLerp();
-	// RunVectorTest();
 	// TestVectorOperations();
     // TestMatrixOperations();
 	// TestLinearCombination();
+	RunVectorTest();
 
 	return 0;
 }

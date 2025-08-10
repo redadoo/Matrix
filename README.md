@@ -84,9 +84,7 @@ make run
 ## Articles & Further Reading
 
 * [Vector Math Library Codegen in Debug](https://aras-p.info/blog/2024/09/14/Vector-math-library-codegen-in-Debug/)
-
 * [Vector Types and Debug Performance](https://blog.s-schoener.com/2025-08-07-vector-debug-codegen/)
-
 * [simd](http://const.me/articles/simd/simd.pdf)
 
 ---
