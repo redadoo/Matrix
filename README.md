@@ -77,6 +77,7 @@ make run
 ## Resources
 
 * [Essence of Linear Algebra — 3Blue1Brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
+* [Linear Algebra in C++](https://www.youtube.com/watch?v=VofMMbD2QtQ&list=PL3WoIG-PLjSv9vFx2dg0BqzDZH_6qzF8-)
 
 ---
 
