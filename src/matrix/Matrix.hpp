@@ -1,98 +1,43 @@
-// #pragma once
+#pragma once
 
-// #include <cassert>
-// #include <iomanip>
+#include "Vector.hpp"
 
-// template<std::size_t R, std::size_t C, typename T>
-// struct mat
-// {
-// 	std::array<T, R * C> data{};
+namespace Maft
+{
+    template<std::size_t R, std::size_t C, typename T>
+    struct Matrix;
 
-// 	mat(const mat& other) = default;
-// 	mat() = default;
+    template<std::size_t R, std::size_t C, typename T>
+    std::ostream& operator<<(std::ostream& os, const Matrix<R, C, T>& m);
 
-// 	T& operator()(std::size_t row, std::size_t col)
-// 	{
-// 		assert(row < R && col < C);
-// 		return data[row * C + col];
-// 	}
+    template<std::size_t R, std::size_t C, typename T>
+    struct Matrix
+    {
+        std::array<T, R * C> data{};
 
-// 	const T& operator()(std::size_t row, std::size_t col) const
-// 	{
-// 		assert(row < R && col < C);
-// 		return data[row * C + col];
-// 	}
+        Matrix() = default;
+        Matrix(const Matrix& other) = default;
 
-// 	mat& operator=(const mat& other)
-// 	{
-// 		if (this != &other)
-// 			data = other.data;
-// 		return *this;
-// 	}
+        //overload
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator()(std::size_t row, std::size_t col);
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator()(std::size_t row, std::size_t col) const;
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix& operator=(const Matrix& other);
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR bool operator==(const Matrix& other) const;
 
-// 	bool operator==(const mat& other) const
-// 	{
-// 		return data == other.data;
-// 	}
+        //operation
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Add(const Matrix& other);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Matrix& other);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const T& scalar);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Matrix& other);
 
-// 	void Add(const mat& other)
-// 	{
-// 		for (std::size_t i = 0; i < data.size(); ++i)
-// 			data[i] += other.data[i];
-// 	}
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T> multiply_vec(const Vector<C, T>& v) const;
 
-// 	void Scale(const mat& other)
-// 	{
-// 		for (std::size_t i = 0; i < data.size(); ++i)
-// 			data[i] *= other.data[i];
-// 	}
+        // static
+        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<C, T> Lerp(const Vector<C, T>& a, const Vector<C, T>& b, float t);
 
-// 	void Scale(const T& scalar)
-// 	{
-// 		for (size_t i = 0; i < data.size(); i++)
-// 			this->data[i] *= scalar;
-// 	}
+        // friend
+        friend std::ostream& operator<< <R, C, T>(std::ostream& os, const Matrix<R, C, T>& m);
+    };
+} 
 
-// 	void Subtract(const mat& other) {
-// 		for (size_t i = 0; i < data.size(); i++)
-// 			this->data[i] -= other.data[i]; 
-// 	}
-
-// 	template <size_t C, typename T>
-// 	vec<T,C> multiply_vec(const &vec<T,C>) const
-// 	{
-// 		vec<R, T> result{};
-// 		return result;
-// 	}
-	
-// 	friend std::ostream& operator<<(std::ostream& os, const mat& m)
-// 	{
-// 		constexpr int width = 2; 
-// 		os << "\n";
-// 		for (std::size_t i = 0; i < R; ++i)
-// 		{
-// 			for (std::size_t j = 0; j < C; ++j)
-// 				os << std::setw(width) << m(i, j) << " ";
-// 			os << "\n";
-// 		}
-// 		return os;
-// 	}
-// };
-
-// template<std::size_t R, std::size_t C, typename T>
-// static mat<R,C, T> Lerp(const mat<R,C, T>& a, const mat<R,C, T>& b, float t)
-// {
-//     t = Clamp01(t);
-//     mat<R, C, T> result;
-
-//     for (size_t r = 0; r < R; ++r)
-//     {
-//         for (size_t c = 0; c < C; ++c)
-//         {
-//             result(r,c) = static_cast<T>(
-//                 a(r,c) + (b(r,c) - a(r,c)) * t
-//             );
-//         }
-//     }
-//     return result;
-// }
+#include "Matrix.inl"

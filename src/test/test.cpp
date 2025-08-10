@@ -1,8 +1,5 @@
-#include "utils.hpp"
-#include "Vector.hpp"
+#include "Matrix.hpp"
 
-#include <iostream>
-#include <cassert>
 #include <chrono>
 #include <iomanip>
 

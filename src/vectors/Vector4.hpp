@@ -5,8 +5,10 @@
 
 namespace Maft
 {
-    template<typename T>
-    using Vector4 = Vector<4, T>;
+	template<typename T>
+	using Vector4 = Vector<4, T>;
+
+	//TODO: implement
 }
 
 #include "Vector4.inl"
