@@ -1,5 +1,5 @@
+#include "utils.hpp"
 #include "Vector.hpp"
-#include <vector>
 
 #include <iostream>
 #include <cassert>
@@ -8,44 +8,53 @@
 
 void RunVectorTest()
 {
-	constexpr std::size_t iterations = 100000000;
-	constexpr std::size_t components = 3;
+	std::vector< Maft::Vector<3,float> > vecs = {
+		{1, 0, 0},
+		{0, 1, 0},
+		{0, 0, 1}
+	};
+	Maft::Vector<3,float> weights {0.2f, 0.3f, 0.5f};
 
-	using vec3f = Maft::Vector<components, float>;
+	auto combined = Maft::Vector<3, float>::LinearCombination(vecs, weights);
+	std::cout << combined << "\n";
+	// constexpr std::size_t iterations = 100000000;
+	// constexpr std::size_t components = 3;
+
+	// using vec3f = Vector<components, float>;
 	
-	vec3f a{};
-	vec3f b{};
-	vec3f scalar{};
+	// vec3f a{};
+	// vec3f b{};
+	// vec3f scalar{};
 	
-	for (std::size_t i = 0; i < components; ++i) {
-		a[i] = static_cast<float>(i);
-		b[i] = static_cast<float>(i + 1);
-		scalar[i] = 1.5f;
-	}
+	// for (std::size_t i = 0; i < components; ++i) {
+	// 	a[i] = static_cast<float>(i);
+	// 	b[i] = static_cast<float>(i + 1);
+	// 	scalar[i] = 1.5f;
+	// }
 
-	std::vector<vec3f> buffer;
-	buffer.reserve(iterations);
+	// std::vector<vec3f> buffer;
+	// buffer.reserve(iterations);
 
-	auto start = std::chrono::high_resolution_clock::now();
+	// auto start = std::chrono::high_resolution_clock::now();
 
-	for (std::size_t i = 0; i < iterations; ++i)
-	{
-		vec3f temp = a;
-		temp.Add(b);
-		temp.Subtract(b);
-		temp.Scale(scalar);
-		buffer.push_back(temp);
-	}
+	// for (std::size_t i = 0; i < iterations; ++i)
+	// {
+	// 	vec3f temp = a;
+	// 	temp.Add(b);
+	// 	temp.Subtract(b);
+	// 	temp.Scale(scalar);
+	// 	buffer.push_back(temp);
+	// }
 
-	auto end = std::chrono::high_resolution_clock::now();
+	// auto end = std::chrono::high_resolution_clock::now();
 
-	std::chrono::duration<double> elapsed = end - start;
+	// std::chrono::duration<double> elapsed = end - start;
 	
-	std::cout << "Performed " << iterations << " vector operations in "
-			  << elapsed.count() << " seconds.\n";
+	// std::cout << "Performed " << iterations << " vector operations in "
+	// 		  << elapsed.count() << " seconds.\n";
 
-	if (!buffer.empty())
-		std::cout << "Last vector result: " << buffer.back() << "\n";
+	// if (!buffer.empty())
+	// 	std::cout << "Last vector result: " << buffer.back() << "\n";
 }
 
 // void TestVectorOperations() {

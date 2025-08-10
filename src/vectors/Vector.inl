@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Vector.hpp"
+#include "utils.hpp"
+
 #include <iostream>
-#include <cassert>
 #include <cmath>
+#include <cassert>
 
 namespace Maft
 {
@@ -78,6 +79,7 @@ namespace Maft
 		float res = 0;
 		for (size_t i = 0; i < C; i++)
 			res += data[i] * data[i];
+		// TODO: remove replace std::sqrt
 		return std::sqrt(res);
 	}
 
@@ -97,6 +99,73 @@ namespace Maft
 		for (size_t i = 1; i < C; i++)
 			max_val = std::max(max_val, std::abs(data[i]));
 		return max_val;
+	}
+
+	template <size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T> Vector<C, T>::Lerp(const Vector<C, T>& a, const Vector<C, T>& b, float t)
+	{
+		t = Clamp01(t);
+		Vector<C, T> result;
+		for (size_t i = 0; i < C; ++i)
+			result[i] = static_cast<T>(a[i] + (b[i] - a[i]) * t);
+		return result;
+	}
+
+	template <size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C,T> Vector<C, T>::LinearCombination(const std::vector< Vector<C,T> >& vectors, const Vector<C,T>& scalar)
+	{
+		Vector<C,T> result{};
+
+		for (size_t i = 0; i < vectors.size(); i++)
+		{
+			Vector<C,T> tmp = vectors[i];
+			tmp.Scale(scalar[i]);
+			result.Add(tmp);
+		}
+		return result;
+	}
+
+	template <size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::magnitude(Vector<C, float> vector) 
+	{
+		float res = 0.0f;
+		for (size_t i = 0; i < vector.size(); i++)
+			res = vector[i] * vector[i];
+		// TODO: remove replace std::sqrt
+		return std::sqrt(res); 
+	}
+
+	// TODO: rewrite
+	// template <size_t C, typename T>
+	// float determinant(const vec<C, T>& a, const vec<C, T>& b) 
+	// {
+	// 	static_assert(C == 2);
+	// 	return a[0] * b[1] - a[1] * b[0];
+	// }
+
+	template <size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T> cross_product(const Vector<C, T>& a, const Vector<C, T>& b) 
+	{
+		static_assert(C == 3);
+
+		Vector<3, T> result;
+		result[0] = a[1] * b[2] - a[2] * b[1];
+		result[1] = a[2] * b[0] - a[0] * b[2];
+		result[2] = a[0] * b[1] - a[1] * b[0];
+		return result;
+	}
+
+	template <size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::angle_cos(const Vector<C, T>& a, const Vector<C, T>& b) 
+	{
+		float dot = a.Dot(b);
+		float mag1 = a.norm();
+		float mag2 = b.norm();
+
+		if (mag1 == 0.0f || mag2 == 0.0f)
+			return 0.0f;
+
+		return dot / (mag1 * mag2);
 	}
 
 	template<std::size_t C, typename T>

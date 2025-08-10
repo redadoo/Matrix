@@ -78,3 +78,21 @@
 // 		return os;
 // 	}
 // };
+
+// template<std::size_t R, std::size_t C, typename T>
+// static mat<R,C, T> Lerp(const mat<R,C, T>& a, const mat<R,C, T>& b, float t)
+// {
+//     t = Clamp01(t);
+//     mat<R, C, T> result;
+
+//     for (size_t r = 0; r < R; ++r)
+//     {
+//         for (size_t c = 0; c < C; ++c)
+//         {
+//             result(r,c) = static_cast<T>(
+//                 a(r,c) + (b(r,c) - a(r,c)) * t
+//             );
+//         }
+//     }
+//     return result;
+// }
