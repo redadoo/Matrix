@@ -1,4 +1,5 @@
 #include "Matrix.hpp"
+#include "Matrix2x2.hpp"
 
 #include <chrono>
 #include <iomanip>
@@ -84,11 +85,11 @@ void TestVectorOperations()
 
 void TestMatrixOperations() 
 {
-    Maft::Matrix<2,2,int> mat1{
+    Maft::Matrix2x2<int> mat1{
         1,2,
         3,4
     };
-    Maft::Matrix<2,2,int> mat2{
+    Maft::Matrix2x2<int> mat2{
         7,4,
         -2,2
     };
@@ -98,17 +99,17 @@ void TestMatrixOperations()
 
     mat1.Add(mat2);
     std::cout << "mat1 after Add(mat2): " << mat1 << std::endl;
-    assert((mat1 == Maft::Matrix<2,2,int>{
+    assert((mat1 == Maft::Matrix2x2<int>{
         8,6,
         1,6
     }));
 
 
-    Maft::Matrix<2,2,float> mat3 {
+    Maft::Matrix2x2<float> mat3 {
         1., 2.,
         3., 4.
     };
-    Maft::Matrix<2,2,float> mat4 {
+    Maft::Matrix2x2<float> mat4 {
         7., 4.,
         -2., 2.
     };
@@ -118,13 +119,13 @@ void TestMatrixOperations()
 
     mat3.Subtract(mat4);
     std::cout << "mat3 after Subtract(mat4): " << mat3 << std::endl;
-    assert((mat3 == Maft::Matrix<2,2,float>{
+    assert((mat3 == Maft::Matrix2x2<float>{
         -6., -2.,
         5., 2.
     }));
 
 
-    Maft::Matrix<2,2,float> mat5 {
+    Maft::Matrix2x2<float> mat5 {
         1., 2.,
         3., 4.
     };
@@ -132,7 +133,7 @@ void TestMatrixOperations()
 
     mat5.Scale(2.);
     std::cout << "mat5 after Scale(2): " << mat5 << std::endl;
-    assert((mat5 == Maft::Matrix<2,2,float>{
+    assert((mat5 == Maft::Matrix2x2<float>{
         2., 4.,
         6., 8.
     }));
@@ -162,9 +163,9 @@ void TestLerp()
     Maft::Vector<2,float> v2{4.f, 2.f};
     std::cout << Maft::Vector<2,float>::Lerp(v1, v2, 0.3f) << "\n";           
 
-    Maft::Matrix<2,2,float> m1{2.f, 1.f, 3.f, 4.f};
-    Maft::Matrix<2,2,float> m2{20.f, 10.f, 30.f, 40.f};
-    std::cout << Maft::Matrix<2,2,float>::Lerp(m1, m2, 0.5f) << "\n";        
+    Maft::Matrix2x2<float> m1{2.f, 1.f, 3.f, 4.f};
+    Maft::Matrix2x2<float> m2{20.f, 10.f, 30.f, 40.f};
+    std::cout << Maft::Matrix2x2<float>::Lerp(m1, m2, 0.5f) << "\n";        
 }
 
 void TestDot()

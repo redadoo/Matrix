@@ -7,6 +7,13 @@
 
 namespace Maft
 {
+	template <std::size_t R, std::size_t C, typename T>
+	Matrix<R, C, T>::Matrix(T const& x)
+	{
+		for(std::size_t i = 0; i < R * C; i++)
+			this->data[i] = x;
+	}
+
 	template<std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col)
 	{
@@ -63,9 +70,9 @@ namespace Maft
 			this->data[i] -= other.data[i]; 
 	}
 
-    template <std::size_t R, std::size_t C, typename T>
-    MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> Matrix<R, C, T>::Lerp(const Matrix<R, C, T> &a, const Matrix<R, C, T> &b, float t)
-    {
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> Matrix<R, C, T>::Lerp(const Matrix<R, C, T> &a, const Matrix<R, C, T> &b, float t)
+	{
 		t = clamp01(t);
 		Matrix<R, C, T> result;
 

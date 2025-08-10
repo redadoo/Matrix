@@ -64,6 +64,8 @@
 #   define MAFT_PLATFORM MAFT_PLATFORM_UNKNOWN
 #endif
 
+// TODO: implement other C++ features like initializer lists, = default, etc.
+
 #if MAFT_LANG & MAFT_CXX17_FLAG
 #   define MAFT_NODISCARD [[nodiscard]]
 #else
