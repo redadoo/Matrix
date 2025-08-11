@@ -98,3 +98,5 @@ For further reading and reference, here are some math and linear algebra librari
 * **[HLSL++](https://github.com/redorav/hlslpp)**
 * **[linalg](https://github.com/sgorsten/linalg)**
 * **[lyah](https://github.com/atalantestudio/lyah)**
+* **[eigen](https://gitlab.com/libeigen/eigen)**
+* **[Unity](https://github.com/Unity-Technologies/UnityCsReference/tree/master/Runtime/Export/Math)**
