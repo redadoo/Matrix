@@ -4,9 +4,55 @@
 
 #include <iostream>
 #include <cassert>
+#include "Vector2.hpp"
 
 namespace Maft
 {
+	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<2, T>::Vector(const Vector<2, T>& other)
+    {
+		this->x = other.x;
+		this->y = other.y;
+    }
+
+	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<2, T>::Vector(T x, T y)
+    {
+		this->x = x;
+		this->y = y;
+    }
+
+	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<2, T>::Vector(T n)
+    {
+		this->x = n;
+		this->y = n;
+    }
+
+		template <typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Vector<2, T>::operator[](int index)
+	{
+		switch (index)
+		{
+			case 0: return this->x;
+			case 1: return this->y;
+			default:
+				throw std::out_of_range("Invalid Vector2 index");
+		}
+	}
+
+	template <typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Vector<2, T>::operator[](int index) const
+	{
+		switch (index)
+		{
+			case 0: return this->x;
+			case 1: return this->y;
+			default:
+				throw std::out_of_range("Invalid Vector2 index");
+		}
+	}
+
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<2, T>& Vector<2, T>::operator=(const Vector<2, T>& other)
 	{
@@ -16,7 +62,7 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR bool Vector<2, T>::operator==(const Vector<2, T>& other) const 
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR bool Vector<2, T>::operator==(const Vector<2, T> &other) const
 	{
 		return x == other.x && y == other.y;
 	}
@@ -58,7 +104,7 @@ namespace Maft
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<2, T>::norm() const 
 	{
-		return sqrt(x * y);
+		return sqrt(x * x + y * y);
 	}
 
 	template<typename T>
@@ -101,7 +147,7 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<2, T>::magnitude(Vector<2, float> vector) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<2, T>::magnitude(Vector<2, T> vector) 
 	{
 		return sqrt(vector.x * vector.x + vector.y * vector.y); 
 	}

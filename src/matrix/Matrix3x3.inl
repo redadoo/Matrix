@@ -4,20 +4,6 @@
 namespace Maft
 {
 	template<typename T>
-	MAFT_CONSTEXPR Matrix<3, 3, T>::Matrix()
-	{
-		this->data[0] = 0;
-		this->data[1] = 0;
-		this->data[2] = 0;
-		this->data[3] = 0;
-		this->data[4] = 0;
-		this->data[5] = 0;
-		this->data[6] = 0;
-		this->data[7] = 0;
-		this->data[8] = 0;
-	}
-
-	template<typename T>
 	MAFT_CONSTEXPR Matrix<3, 3, T>::Matrix(T a11, T a12, T a13, T a21, T a22, T a23, T a31, T a32, T a33)
 	{
 		this->data[0] = a11;

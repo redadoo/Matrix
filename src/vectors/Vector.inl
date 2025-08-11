@@ -22,7 +22,7 @@ namespace Maft
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T>& Vector<C, T>::operator=(const Vector& other) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T>& Vector<C, T>::operator=(const Vector<C, T>& other) 
 	{
 		if (this != &other)
 			data = other.data;
@@ -30,27 +30,27 @@ namespace Maft
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR bool Vector<C, T>::operator==(const Vector& other) const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR bool Vector<C, T>::operator==(const Vector<C, T>& other) const 
 	{
 		return data == other.data;
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<C, T>::Add(const Vector& other) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<C, T>::Add(const Vector<C, T>& other) 
 	{
 		for (size_t i = 0; i < C; i++)
 			data[i] += other.data[i];
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<C, T>::Subtract(const Vector& other) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<C, T>::Subtract(const Vector<C, T>& other) 
 	{
 		for (size_t i = 0; i < C; i++)
 			data[i] -= other.data[i];
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<C, T>::Scale(const Vector& other) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<C, T>::Scale(const Vector<C, T>& other) 
 	{
 		for (size_t i = 0; i < C; i++)
 			data[i] *= other.data[i];
@@ -64,7 +64,7 @@ namespace Maft
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::Dot(const Vector& other) const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::Dot(const Vector<C, T>& other) const 
 	{
 		float final_value = 0; 
 		for (size_t i = 0; i < C; i++)
@@ -132,14 +132,6 @@ namespace Maft
 			res = vector[i] * vector[i];
 		return sqrt(res); 
 	}
-
-	// TODO: rewrite
-	// template <size_t C, typename T>
-	// float determinant(const vec<C, T>& a, const vec<C, T>& b) 
-	// {
-	// 	static_assert(C == 2);
-	// 	return a[0] * b[1] - a[1] * b[0];
-	// }
 
 	template <size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T> cross_product(const Vector<C, T>& a, const Vector<C, T>& b) 

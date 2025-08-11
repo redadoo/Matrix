@@ -1,9 +1,8 @@
 
-#include "test.cpp"
+#include "test_subject.cpp"
 
 int main(void)
 {
-    RunVectorTest();
     TestVectorOperations();
     TestMatrixOperations();
     TestLinearCombination();

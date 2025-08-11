@@ -12,7 +12,7 @@ namespace Maft
         std::array<T, 4> data;
 
         // Constructors
-        MAFT_CONSTEXPR Matrix();
+        MAFT_CONSTEXPR Matrix() = default;
         MAFT_CONSTEXPR Matrix(T a11, T a12, T a21, T a22);
     	MAFT_CONSTEXPR Matrix(const Matrix& other);
         
@@ -27,17 +27,14 @@ namespace Maft
         MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR bool operator==(const Matrix<2, 2, T>& other) const;
 
         // Operations
-        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Add(const Matrix<2, 2, T>& other);
-        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Matrix<2, 2, T>& other);
-        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Matrix<2, 2, T>& other);
         MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const T& scalar);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Add(const Matrix<2, 2, T>& other);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Matrix<2, 2, T>& other);
+        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Matrix<2, 2, T>& other);
 
 		// static
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<2, 2, T> Lerp(const Matrix<2, 2, T>& a, const Matrix<2, 2, T>& b, float t);
     };
-
-    template<typename T>
-    using Matrix2x2 = Matrix<2, 2, T>;
 }
 
 #include "Matrix2x2.inl"

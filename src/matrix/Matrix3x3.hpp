@@ -12,7 +12,7 @@ namespace Maft
         std::array<T, 9> data;
 
         // Constructors
-        MAFT_CONSTEXPR Matrix();
+        MAFT_CONSTEXPR Matrix() = default;
         MAFT_CONSTEXPR Matrix(T a11, T a12, T a13, T a21, T a22, T a23, T a31, T a32, T a33);
     	MAFT_CONSTEXPR Matrix(const Matrix& other);
         
@@ -31,9 +31,6 @@ namespace Maft
 		// static
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<3, 3, T> Lerp(const Matrix<3, 3, T>& a, const Matrix<3, 3, T>& b, float t);
     };
-
-    template<typename T>
-    using Matrix3x3 = Matrix<3, 3, T>;
 }
 
 #include "Matrix3x3.inl"

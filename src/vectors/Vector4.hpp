@@ -9,34 +9,35 @@ namespace Maft
     {
         T x, y, z, w;
 
-		Vector() = default;
-		Vector(const Vector& other) = default;
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector() = default;
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector(T n);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector(T x, T y, T z, T w);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector(const Vector<4, T>& other);
 
 		//overload
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator[](int index);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator[](int index) const;
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector& operator=(const Vector<4, T>& other);
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR bool operator==(const Vector<4, T>& other) const;
 
 		//operation
-		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Add(const Vector<4, T>& other);
-		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Vector<4, T>& other);
-		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Vector<4, T>& other);
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const T& scalar);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Add(const Vector<4, T>& other);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Vector<4, T>& other);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Vector<4, T>& other);
 
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float Dot(const Vector<4, T>& other) const;
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm() const;
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm_1() const;
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm_inf() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T norm() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T norm_1() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T norm_inf() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T Dot(const Vector<4, T>& other) const;
 
 		// static functions
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> Lerp(const Vector<4, T>& a, const Vector<4, T>& b, float t);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> LinearCombination(const std::vector< Vector<4, T> >& vectors, const Vector<4, T>& scalar);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> cross_product(const Vector<4, T>& a, const Vector<4, T>& b); 
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float magnitude(Vector<4, float> vector);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float magnitude(const Vector<4, T>& vector);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float angle_cos(const Vector<4, T>& a, const Vector<4, T>& b);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> Lerp(const Vector<4, T>& a, const Vector<4, T>& b, float t);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> cross_product(const Vector<4, T>& a, const Vector<4, T>& b); 
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> LinearCombination(const std::vector< Vector<4, T> >& vectors, const std::vector<T>& scalars);
     };
-
-    template<typename T>
-    using Vector4 = Vector<4, T>;
 }
 
 #include "Vector4.inl"

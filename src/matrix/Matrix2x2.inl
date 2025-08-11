@@ -4,15 +4,6 @@
 namespace Maft
 {
 	template<typename T>
-	MAFT_CONSTEXPR Matrix<2, 2, T>::Matrix()
-	{
-		this->data[0] = 0;
-		this->data[1] = 0;
-		this->data[2] = 0;
-		this->data[3] = 0;
-	}
-
-	template<typename T>
 	MAFT_CONSTEXPR Matrix<2, 2, T>::Matrix(T a11, T a12, T a21, T a22)
 	{
 		this->data[0] = a11;
@@ -40,20 +31,20 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR  Matrix<2, 2, T>& Matrix<2, 2, T>::operator=(const Matrix2x2<T>& other)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR  Matrix<2, 2, T>& Matrix<2, 2, T>::operator=(const Matrix<2, 2, T>& other)
 	{
 		this->data = other.data;
 		return *this;
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR bool Matrix<2, 2, T>::operator==(const Matrix2x2<T>& other) const
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR bool Matrix<2, 2, T>::operator==(const Matrix<2, 2, T>& other) const
 	{
 		return this->data == other.data;
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::Add(const Matrix2x2<T>& other)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::Add(const Matrix<2, 2, T>& other)
 	{
 		this->data[0] += other.data[0];
 		this->data[1] += other.data[1];
@@ -62,7 +53,7 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::Scale(const Matrix2x2<T>& other)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::Scale(const Matrix<2, 2, T>& other)
 	{
 		this->data[0] *= other.data[0];
 		this->data[1] *= other.data[1];
@@ -80,7 +71,7 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::Subtract(const Matrix2x2<T>& other)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::Subtract(const Matrix<2, 2, T>& other)
 	{
 		this->data[0] -= other.data[0];
 		this->data[1] -= other.data[1];
