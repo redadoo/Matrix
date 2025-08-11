@@ -20,7 +20,6 @@ namespace Maft
 		this->data[2] = a21;
 		this->data[3] = a22;
 	}
-
 	
 	template<typename T>
 	MAFT_CONSTEXPR Matrix<2, 2, T>::Matrix(const Matrix<2, 2, T>& other)
@@ -31,17 +30,17 @@ namespace Maft
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<2, 2, T>::operator()(std::size_t row, std::size_t col)
 	{
-		return this->data[row * 2 + col];
+		return this->data[col * 2 + row];
 	}
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<2, 2, T>::operator()(std::size_t row, std::size_t col) const
 	{
-		return this->data[row * 2 + col];
+		return this->data[col * 2 + row];
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix2x2<T>& Matrix<2, 2, T>::operator=(const Matrix2x2<T>& other)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR  Matrix<2, 2, T>& Matrix<2, 2, T>::operator=(const Matrix2x2<T>& other)
 	{
 		this->data = other.data;
 		return *this;

@@ -18,14 +18,14 @@ namespace Maft
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col)
 	{
 		assert(row < R && col < C);
-		return data[row * C + col];
+		return data[col * C + row];
 	}
 
 	template<std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col) const
 	{
 		assert(row < R && col < C);
-		return data[row * C + col];
+		return data[col * C + row];
 	}
 
 	template<std::size_t R, std::size_t C, typename T>

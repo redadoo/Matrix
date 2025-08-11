@@ -38,7 +38,6 @@ namespace Maft
 
     template<typename T>
     using Matrix2x2 = Matrix<2, 2, T>;
-
 }
 
 #include "Matrix2x2.inl"

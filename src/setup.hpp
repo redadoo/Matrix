@@ -46,13 +46,10 @@
 #   define MAFT_COMPILER MAFT_COMPILER_UNKNOWN
 #endif
 
-
 #define MAFT_PLATFORM_UNKNOWN   0
 #define MAFT_PLATFORM_WINDOWS   (1 << 0)
 #define MAFT_PLATFORM_LINUX     (1 << 1)
 #define MAFT_PLATFORM_MACOS     (1 << 2)
-#define MAFT_PLATFORM_ANDROID   (1 << 3)
-#define MAFT_PLATFORM_IOS       (1 << 4)
 
 #if defined(_WIN32) || defined(_WIN64)
 #   define MAFT_PLATFORM MAFT_PLATFORM_WINDOWS
