@@ -10,7 +10,7 @@ using namespace Maft;
 //TODO: rewrite tests
 
 
-void TestVectorOperations() 
+void test_vector_operations() 
 {
     std::cout << "===== Test Add =====\n";
 
@@ -112,7 +112,7 @@ void TestVectorOperations()
     }
 }
 
-void TestMatrixOperations() 
+void test_matrix_operations() 
 {
     std::cout << "===== Test Add =====\n";
 
@@ -311,7 +311,7 @@ void TestMatrixOperations()
     }
 }
 
-void TestLinearCombination() {
+void test_linear_combination() {
     Vector3f e1{1.f, 0.f, 0.f};
     Vector3f e2{0.f, 1.f, 0.f};
     Vector3f e3{0.f, 0.f, 1.f};
@@ -326,8 +326,7 @@ void TestLinearCombination() {
 	std::cout << "Linear combination 1: " << res1 << std::endl;
 }
 
-
-void TestLerp()
+void test_lerp()
 {
 	Vector2f v1{2.f, 1.f};
 	Vector2f v2{4.f, 2.f};
@@ -338,7 +337,7 @@ void TestLerp()
 	std::cout << Matrix2x2f::Lerp(m1, m2, 0.5f) << "\n";        
 }
 
-void TestDot()
+void test_dot()
 {
 	Vector2f v1{0.0, 0.0};
 	Vector2f v2{1.0, 1.0};
@@ -353,7 +352,7 @@ void TestDot()
 	std::cout << v5.Dot(v6) << std::endl;
 }
 
-void TestNorm()
+void test_norm()
 {
 	std::cout << std::fixed << std::setprecision(8);
 
@@ -367,7 +366,7 @@ void TestNorm()
 	std::cout << v3.norm_1() << " " << v3.norm() << " " << v3.norm_inf() << std::endl;
 }
 
-void TestAngleCos()
+void test_angle_cos()
 {
 	std::cout << std::fixed << std::setprecision(8);
 
@@ -380,4 +379,23 @@ void TestAngleCos()
 	Vector2f u3{-1.0f, 1.0f};
 	Vector2f v3{1.0f, -1.0f};
 	std::cout << Vector2f::angle_cos(u3, v3) << std::endl;
+}
+
+void test_cross_product()
+{
+    Vector3f u1{0.0f, 0.0f, 1.0f};
+    Vector3f v1{1.0f, 0.0f, 0.0f};
+
+    std::cout << Vector3f::cross_product(u1, v1) << std::endl;
+
+
+    Vector3f u2{1.0f, 2.0f, 3.0f};
+    Vector3f v2{4.0f, 5.0f, 6.0f};
+
+    std::cout << Vector3f::cross_product(u2, v2) << std::endl;
+
+    Vector3f u3{4.0f, 2.0f, -3.0f};
+    Vector3f v3{-2.0f, -5.0f, 16.0f};
+
+    std::cout << Vector3f::cross_product(u3, v3) << std::endl;
 }

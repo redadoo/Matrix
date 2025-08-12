@@ -152,6 +152,16 @@ namespace Maft
 		return res;
 	}
 
+	template <typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T> Vector<3, T>::cross_product(const Vector<3, T>& a, const Vector<3, T>& b) 
+	{
+		Vector<3, T> result;
+		result[0] = a[1] * b[2] - a[2] * b[1];
+		result[1] = a[2] * b[0] - a[0] * b[2];
+		result[2] = a[0] * b[1] - a[1] * b[0];
+		return result;
+	}
+
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T> Vector<3, T>::LinearCombination(const std::vector< Vector<3, T> >& vectors, const Vector<3, T>& scalar)
 	{
