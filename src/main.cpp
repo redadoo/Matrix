@@ -3,6 +3,6 @@
 
 int main(void)
 {
-    test_cross_product();
+    test_matrix_multiplication();
     return 0;
 }

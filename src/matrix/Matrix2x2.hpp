@@ -31,9 +31,13 @@ namespace Maft
         MAFT_FORCE_INLINE MAFT_CONSTEXPR void Add(const Matrix<2, 2, T>& other);
         MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Matrix<2, 2, T>& other);
         MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Matrix<2, 2, T>& other);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<2, T> multiply_vector(const Vector<2, T>& v);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<2, 2, T> multiply_matrix(const Matrix<2, 2, T>& v);
 
 		// static
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<2, 2, T> Lerp(const Matrix<2, 2, T>& a, const Matrix<2, 2, T>& b, float t);
+
+        friend std::ostream& operator<< <>(std::ostream& os, const Matrix& m);
     };
 }
 

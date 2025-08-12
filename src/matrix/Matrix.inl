@@ -18,14 +18,14 @@ namespace Maft
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col)
 	{
 		assert(row < R && col < C);
-		return data[col * C + row];
+		return data[col * R + row];
 	}
 
 	template<std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col) const
 	{
 		assert(row < R && col < C);
-		return data[col * C + row];
+		return data[col * R + row];
 	}
 
 	template<std::size_t R, std::size_t C, typename T>
@@ -89,7 +89,7 @@ namespace Maft
 	}
 
 	template <std::size_t R, std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T> Matrix<R, C, T>::multiply_vector(const Vector<C, T>& v) const
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C, T> Matrix<R, C, T>::multiply_vector(const Vector<C, T>& v)
 	{
 		Vector<R, T> result;
 		for (std::size_t r = 0; r < R; ++r)
@@ -102,7 +102,26 @@ namespace Maft
 		return result;
 	}
 
-	template<std::size_t R, std::size_t C, typename T>
+	template <std::size_t R, std::size_t C, typename T>
+	template <std::size_t P>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, P, T> Matrix<R, C, T>::multiply_matrix(const Matrix<C, P, T>& m) const
+	{
+		Matrix<R, P, T> result{};
+		for (std::size_t i = 0; i < R; ++i) 
+		{
+			for (std::size_t j = 0; j < P; ++j) 
+			{
+				T sum = T{};
+
+				for (std::size_t k = 0; k < C; ++k) 
+					sum += (*this)(i, k) * m(k, j);
+				result(i, j) = sum;
+			}
+		}
+		return result;
+	}
+
+    template<std::size_t R, std::size_t C, typename T>
 	std::ostream& operator<<(std::ostream& os, const Matrix<R, C, T>& m)
 	{
 		constexpr int width = 2; 
