@@ -44,7 +44,6 @@ namespace Maft
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float magnitude(Vector<C, float> vector);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float angle_cos(const Vector<C, T>& a, const Vector<C, T>& b);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<C, T> Lerp(const Vector<C, T>& a, const Vector<C, T>& b, float t);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<C, T> cross_product(const Vector<C, T>& a, const Vector<C, T>& b); 
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<C, T> LinearCombination(const std::vector< Vector<C,T> >& vectors, const Vector<C,T>& scalar);
 
 		friend std::ostream& operator<< <>(std::ostream& os, const Vector<C, T>& v);
