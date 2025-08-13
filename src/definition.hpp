@@ -22,11 +22,11 @@ namespace Maft
 
     using Matrix2x2f = Matrix<2, 2, f32>;
     using Matrix3x3f = Matrix<3, 3, f32>;
-    using Matrix4x4f = Matrix<3, 3, f32>;
+    using Matrix4x4f = Matrix<4, 4, f32>;
 
     using Matrix2x2d = Matrix<2, 2, f64>;
     using Matrix3x3d = Matrix<3, 3, f64>;
-    using Matrix4x4d = Matrix<3, 3, f64>;
+    using Matrix4x4d = Matrix<4, 4, f64>;
 
     using Matrix2x2i = Matrix<2, 2, int>;
     using Matrix3x3i = Matrix<3, 3, int>;

@@ -9,30 +9,131 @@ namespace Maft
     {
         std::array<T, 16> data;
 
-        MAFT_CONSTEXPR Matrix() = default;
-        MAFT_CONSTEXPR Matrix(
-			T a11, T a12, T a13, T a14, 
-			T a21, T a22, T a23, T a24, 
-			T a31, T a32, T a33, T a34, 
-			T a41, T a42, T a43, T a44
-		);
-    	MAFT_CONSTEXPR Matrix(const Matrix& other);
-        
-        // overload
-        MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<4, 4, T>& operator=(const Matrix<4, 4, T>& other);
-        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator()(std::size_t row, std::size_t col);
-        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR bool operator==(const Matrix<4, 4, T>& other) const;
-        MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator()(std::size_t row, std::size_t col) const;
+		// Constructors
+		
+		Matrix() = default;
+		MAFT_CONSTEXPR Matrix(const T& x);
+		MAFT_CONSTEXPR Matrix(const Matrix& other);
+		MAFT_CONSTEXPR Matrix(
+			T m00, T m10, T m20, T m30,
+			T m01, T m11, T m21, T m31,
+			T m02, T m12, T m22, T m32,
+			T m03, T m13, T m23, T m33);
+		
+		// assignment operators (Matrix-Matrix)
 
-        // Operations
-        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Add(const Matrix<4, 4, T>& other);
-        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Matrix<4, 4, T>& other);
-        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Matrix<4, 4, T>& other);
-        MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const T& scalar);
+		MAFT_CONSTEXPR Matrix<4, 4, T>& operator=(const Matrix<4, 4, T>& other);
+		MAFT_CONSTEXPR Matrix<4, 4, T>& operator+=(const Matrix<4, 4, T>& other);
+		MAFT_CONSTEXPR Matrix<4, 4, T>& operator-=(const Matrix<4, 4, T>& other);
+		MAFT_CONSTEXPR Matrix<4, 4, T>& operator*=(const Matrix<4, 4, T>& other);
+		MAFT_CONSTEXPR Matrix<4, 4, T>& operator/=(const Matrix<4, 4, T>& other);
 
-		// static
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<4, 4, T> Lerp(const Matrix<4, 4, T>& a, const Matrix<4, 4, T>& b, float t);
-    };
+		// assignment operators (Matrix-Scalar)
+
+		template<typename U>
+		MAFT_CONSTEXPR Matrix<4, 4, T>& operator+=(U s);
+		
+		template<typename U>
+		MAFT_CONSTEXPR Matrix<4, 4, T>& operator-=(U s);
+
+		template<typename U>
+		MAFT_CONSTEXPR Matrix<4, 4, T>& operator*=(U s);
+
+		template<typename U>
+		MAFT_CONSTEXPR Matrix<4, 4, T>& operator/=(U s);
+		
+		//  increment / decrement
+
+		Matrix<4, 4, T>& operator++();
+		Matrix<4, 4, T>& operator--();
+		Matrix<4, 4, T> operator++(int);
+		Matrix<4, 4, T> operator--(int);
+
+		//  element access
+
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator()(std::size_t row, std::size_t col);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator()(std::size_t row, std::size_t col) const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator[](std::size_t index);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator[](std::size_t index) const;
+
+		//  matrix Operations
+
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void swap_row(int first_row_index, int second_row_index);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void swap_column(int first_column_index, int second_column_index);
+
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const T& scalar);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Add(const Matrix<4, 4, T>& other);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Matrix<4, 4, T>& other);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Matrix<4, 4, T>& other);
+		
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<4, T> multiply_vector(const Vector<4, T>& v);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<4, 4, T> multiply_matrix(const Matrix<4, 4, T>& other) const;
+		
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T trace() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T determinant() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<4, 4, T> row_echelon() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<4, 4, T> transpose() const;
+
+		// static utility functions
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<4, 4, T> Lerp(const Matrix& a, const Matrix& b, float t);
+
+		// // friend
+		friend std::ostream& operator<< <>(std::ostream& os, const Matrix& m);
+	};
+
+	//  unary operators
+
+	template<std::size_t R, std::size_t C, typename T>
+	MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<4, 4, T> operator+(const Matrix<4, 4, T>& other);
+
+	template<std::size_t R, std::size_t C, typename T>
+	MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<4, 4, T> operator-(const Matrix<4, 4, T>& other);
+
+	// binary operators
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator+(const Matrix<4, 4, T>& m, T scalar);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator+(T scalar, const Matrix<4, 4, T>& m);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator+(const Matrix<4, 4, T>& m1, const Matrix<4, 4, T>& m2);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator-(const Matrix<4, 4, T>& m, T scalar);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator-(T scalar, const Matrix<4, 4, T>& m);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator-(const Matrix<4, 4, T>& m1, const Matrix<4, 4, T>& m2);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator*(const Matrix<4, 4, T>& m, T scalar);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator*(T scalar, const Matrix<4, 4, T>& m);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator*(const Matrix<4, 4, T>& m1, const Matrix<4, 4, T>& m2);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator/(const Matrix<4, 4, T>& m, T scalar);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator/(T scalar, const Matrix<4, 4, T>& m);
+
+	template<std::size_t R, std::size_t C, typename T>
+	Matrix<4, 4, T> operator/(const Matrix<4, 4, T>& m1, const Matrix<4, 4, T>& m2);
+
+	// comparison operators
+
+	template<std::size_t R, std::size_t C, typename T>
+	MAFT_CONSTEXPR bool operator==(const Matrix<4, 4, T>& m1, const Matrix<4, 4, T>& m2);
+
+	template<std::size_t R, std::size_t C, typename T>
+	MAFT_CONSTEXPR bool operator!=(const Matrix<4, 4, T>& m1, const Matrix<4, 4, T>& m2);
 }
 
 #include "Matrix4x4.inl"

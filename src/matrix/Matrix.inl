@@ -7,13 +7,138 @@
 
 namespace Maft
 {
+	//  constructors
+	
 	template <std::size_t R, std::size_t C, typename T>
-	Matrix<R, C, T>::Matrix(T const& x)
+	MAFT_CONSTEXPR Matrix<R, C, T>::Matrix(T const& x)
 	{
 		for(std::size_t i = 0; i < R * C; i++)
 			this->data[i] = x;
 	}
 
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_CONSTEXPR Matrix<R, C, T>::Matrix(const Matrix<R, C, T> &other)
+	{
+		for(std::size_t i = 0; i < R * C; i++)
+			this->data[i] = other.data[i];
+	}
+
+	// assignment operators (matrix matrix)
+
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> &Matrix<R, C, T>::operator=(const Matrix<R, C, T> &other)
+	{
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i] = other.data[i];
+		return *this;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> &Matrix<R, C, T>::operator+=(const Matrix<R, C, T> &other)
+	{
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i] += other.data[i];
+		return *this;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> &Matrix<R, C, T>::operator-=(const Matrix<R, C, T> &other)
+	{
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i] -= other.data[i];
+		return *this;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> &Matrix<R, C, T>::operator*=(const Matrix<R, C, T> &other)
+	{
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i] *= other.data[i];
+		return *this;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> &Matrix<R, C, T>::operator/=(const Matrix<R, C, T> &other)
+	{
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i] /= other.data[i];
+		return *this;
+	}
+
+	// assignment operators (matrix scalar)
+
+	template <std::size_t R, std::size_t C, typename T>
+    template <typename U>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> &Matrix<R, C, T>::operator+=(U s)
+    {
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i] += s;
+		return *this;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    template <typename U>
+    MAFT_CONSTEXPR Matrix<R, C, T> &Matrix<R, C, T>::operator-=(U s)
+    {
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i] -= s;
+		return *this;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+    template <typename U>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> &Matrix<R, C, T>::operator*=(U s)
+    {
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i] *= s;
+		return *this;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+    template <typename U>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> &Matrix<R, C, T>::operator/=(U s)
+    {
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i] /= s;
+		return *this;
+	}
+
+	//  increment / decrement
+	
+	template <std::size_t R, std::size_t C, typename T>
+	Matrix<R, C, T>& Matrix<R, C, T>::operator++()
+	{
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i]++;
+		return *this;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+	Matrix<R, C, T>& Matrix<R, C, T>::operator--()
+	{
+		for (std::size_t i = 0; i < data.size(); ++i)
+			this->data[i]--;
+		return *this;
+	}
+	
+	template <std::size_t R, std::size_t C, typename T>
+	Matrix<R, C, T> Matrix<R, C, T>::operator++(int)
+	{
+		Matrix<R, C, T> res(*this);
+		++*this;
+		return res;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+	Matrix<R, C, T> Matrix<R, C, T>::operator--(int)
+	{
+		Matrix<R, C, T> res(*this);
+		--*this;
+		return res;
+	}
+
+	//  element access
+	
 	template<std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col)
 	{
@@ -28,64 +153,162 @@ namespace Maft
 		return data[col * R + row];
 	}
 
-	template<std::size_t R, std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T>& Matrix<R, C, T>::operator=(const Matrix<R, C, T>& other)
-	{
-		if (this != &other)
-			data = other.data;
-		return *this;
-	}
-
-	template<std::size_t R, std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR bool Matrix<R, C, T>::operator==(const Matrix& other) const
-	{
-		return data == other.data;
-	}
+	//  matrix operations
 
 	template<std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<R, C, T>::Add(const Matrix& other)
 	{
-		for (std::size_t i = 0; i < data.size(); ++i)
-			data[i] += other.data[i];
+		(*this) += other;
 	}
 
 	template<std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<R, C, T>::Scale(const Matrix& other)
 	{
-		for (std::size_t i = 0; i < data.size(); ++i)
-			data[i] *= other.data[i];
+		(*this) *= other;
 	}
 
 	template<std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<R, C, T>::Scale(const T& scalar)
 	{
-		for (size_t i = 0; i < data.size(); i++)
-			this->data[i] *= scalar;
+		(*this) *= scalar;
 	}
 
 	template<std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<R, C, T>::Subtract(const Matrix& other) 
 	{
-		for (size_t i = 0; i < data.size(); i++)
-			this->data[i] -= other.data[i]; 
+		(*this) -= other;
+	}
+
+	template<std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<R, C, T>::swap_row(int first_row_index, int second_row_index)
+	{
+		assert(first_row_index >= 0 && first_row_index < static_cast<int>(R));
+    	assert(second_row_index >= 0 && second_row_index < static_cast<int>(R));
+		if (first_row_index == second_row_index) return;
+
+		for (std::size_t col = 0; col < C; ++col)
+			std::swap((*this)(first_row_index, col), (*this)(second_row_index, col));
+	}
+
+	template<std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<R, C, T>::swap_column(int first_column_index, int second_column_index)
+	{
+		assert(first_column_index >= 0 && first_column_index < static_cast<int>(R));
+    	assert(second_column_index >= 0 && second_column_index < static_cast<int>(R));
+		if (first_column_index == second_column_index) return;
+
+		for (std::size_t row = 0; row < R; ++row)
+			std::swap((*this)(row, first_column_index), (*this)(row, second_column_index));
 	}
 
 	template <std::size_t R, std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> Matrix<R, C, T>::Lerp(const Matrix<R, C, T> &a, const Matrix<R, C, T> &b, float t)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<C, R, T> Matrix<R, C, T>::transpose() const
 	{
-		t = clamp01(t);
-		Matrix<R, C, T> result;
-
-		for (size_t r = 0; r < R; ++r)
+		Matrix<C, R, T> result{};
+		for (std::size_t r = 0; r < R; ++r) 
 		{
-			for (size_t c = 0; c < C; ++c)
-			{
-				result(r,c) = static_cast<T>(
-					a(r,c) + (b(r,c) - a(r,c)) * t
-				);
-			}
+			for (std::size_t c = 0; c < C; ++c) 
+				result(c, r) = (*this)(r, c);
 		}
 		return result;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_CONSTEXPR T Matrix<R, C, T>::trace() const
+	{
+		assert(R == C);
+		T sum {};
+
+		for (size_t i = 0; i < C; i++)
+			sum += (*this)(i,i);
+
+		return sum;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR bool Matrix<R, C, T>::is_square() const
+    {
+		return R == C;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T Matrix<R, C, T>::determinant() const
+    {
+    	static_assert(R == C);
+		
+        T det = T(0);
+        for (size_t col = 0; col < R; ++col)
+        {
+            Matrix<R-1, C-1, T> minor;
+            for (size_t i = 1; i < R; ++i)
+            {
+                size_t minor_col = 0;
+                for (size_t j = 0; j < C; ++j)
+                {
+                    if (j == col) continue;
+                    minor(i-1, minor_col) = (*this)(i,j);
+                    ++minor_col;
+                }
+            }
+
+            T cofactor = ((col % 2 == 0) ? 1 : -1) * (*this)(0,col);
+            det += cofactor * minor.determinant();
+        }
+        return det;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> Matrix<R, C, T>::row_echelon() const
+	{
+		Matrix<R, C, T> m(*this);
+		std::size_t lead = 0;
+		constexpr T epsilon = T(1e-7);
+
+		for (std::size_t r = 0; r < R; ++r)
+		{
+			if (lead >= C)
+				break;
+
+			std::size_t i = r;
+			while (i < R && std::abs(m(i, lead)) < epsilon)
+				++i;
+
+			if (i == R)
+			{
+				++lead;
+				--r; 
+				continue;
+			}
+
+			if (i != r)
+				m.swap_row(i, r);
+
+			T pivot = m(r, lead);
+			if (std::abs(pivot) >= epsilon)
+			{
+				for (std::size_t col = 0; col < C; ++col)
+					m(r, col) /= pivot;
+			}
+
+			for (std::size_t row_below = r + 1; row_below < R; ++row_below)
+			{
+				T factor = m(row_below, lead);
+				if (std::abs(factor) >= epsilon)
+				{
+					for (std::size_t col = 0; col < C; ++col)
+						m(row_below, col) -= factor * m(r, col);
+				}
+			}
+
+			++lead;
+		}
+
+		for (std::size_t row = 0; row < R; ++row)
+			for (std::size_t col = 0; col < C; ++col)
+				if (std::abs(m(row, col)) < epsilon)
+					m(row, col) = T(0);
+
+		return m;
 	}
 
 	template <std::size_t R, std::size_t C, typename T>
@@ -121,17 +344,199 @@ namespace Maft
 		return result;
 	}
 
-    template<std::size_t R, std::size_t C, typename T>
+	// static utility functions
+
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> Matrix<R, C, T>::Lerp(const Matrix<R, C, T> &a, const Matrix<R, C, T> &b, float t)
+	{
+		t = clamp01(t);
+		Matrix<R, C, T> result;
+
+		for (size_t r = 0; r < R; ++r)
+		{
+			for (size_t c = 0; c < C; ++c)
+			{
+				result(r,c) = static_cast<T>(
+					a(r,c) + (b(r,c) - a(r,c)) * t
+				);
+			}
+		}
+		return result;
+	}
+	
+	//  unary operators
+	
+    template <std::size_t R, std::size_t C, typename T>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> operator+(const Matrix<R, C, T> &m)
+    {
+		return m;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> operator-(const Matrix<R, C, T> &m)
+    {
+		for (size_t i = 0; i < R * C; i++)
+			m[i] = -m[i]; 
+		
+		return m;
+	}
+
+	// binary operators 
+
+	template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator+(const Matrix<R, C, T> &m, T scalar)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m[i] + scalar;
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator+(T scalar, const Matrix<R, C, T> &m)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m[i] + scalar;
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator+(const Matrix<R, C, T> &m1, const Matrix<R, C, T> &m2)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m1[i] + m2[i];
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator-(const Matrix<R, C, T> &m, T scalar)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m[i] - scalar;
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator-(T scalar, const Matrix<R, C, T> &m)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m[i] - scalar;
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator-(const Matrix<R, C, T> &m1, const Matrix<R, C, T> &m2)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m1[i] - m2[i];
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator*(const Matrix<R, C, T> &m, T scalar)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m[i] * scalar;
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator*(T scalar, const Matrix<R, C, T> &m)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m[i] * scalar;
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator*(const Matrix<R, C, T> &m1, const Matrix<R, C, T> &m2)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m1[i] * m2[i];
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator/(const Matrix<R, C, T> &m, T scalar)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m[i] / scalar;
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator/(T scalar, const Matrix<R, C, T> &m)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m[i] / scalar;
+
+		return res;
+	}
+
+    template <std::size_t R, std::size_t C, typename T>
+    Matrix<R, C, T> operator/(const Matrix<R, C, T> &m1, const Matrix<R, C, T> &m2)
+    {
+		Matrix<R, C, T> res;
+		for (size_t i = 0; i < R * C; i++)
+			res[i] = m1[i] / m2[i];
+
+		return res;
+	}
+
+	// comparison operators
+
+    template <std::size_t R, std::size_t C, typename T>
+	MAFT_CONSTEXPR bool Maft::operator==(const Matrix<R, C, T> &m1, const Matrix<R, C, T> &m2)
+	{
+		for (size_t i = 0; i < R * C; i++)
+		{
+			if (m1[i] != m2[i]) return false;
+		}
+		return true;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
+	MAFT_CONSTEXPR bool Maft::operator!=(const Matrix<R, C, T> &m1, const Matrix<R, C, T> &m2)
+	{
+		for (size_t i = 0; i < R * C; i++)
+		{
+			if (m1[i] == m2[i]) return false;
+		}
+		return true;
+	}
+
+	template<std::size_t R, std::size_t C, typename T>
 	std::ostream& operator<<(std::ostream& os, const Matrix<R, C, T>& m)
 	{
-		constexpr int width = 2; 
+		constexpr int width = 3; 
 		os << "\n";
 		for (std::size_t i = 0; i < R; ++i)
 		{
+			os << "[";
 			for (std::size_t j = 0; j < C; ++j)
-				os << std::setw(width) << m(i, j) << " ";
-			os << "\n";
+				os << std::setw(width) << m(i, j) << ", ";
+			os << "]\n";
 		}
 		return os;
 	}
-} // namespace Maft
+} 

@@ -3,6 +3,6 @@
 
 int main(void)
 {
-    test_matrix_multiplication();
+    test_determinant();
     return 0;
 }
