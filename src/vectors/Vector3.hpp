@@ -32,7 +32,7 @@ namespace Maft
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float Dot(const Vector<3, T>& other) const;
 
 		// static functions
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static int length() { return 3; }
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static std::size_t length() { return 3; }
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float magnitude(const Vector<3, T>& vector);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float angle_cos(const Vector<3, T>& a, const Vector<3, T>& b);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<3, T> Lerp(const Vector<3, T>& a, const Vector<3, T>& b, float t);
