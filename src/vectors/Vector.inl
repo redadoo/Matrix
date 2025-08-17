@@ -145,7 +145,7 @@ namespace Maft
 
 		return dot / (mag1 * mag2);
 	}
-
+	
 	template<std::size_t C, typename T>
 	std::ostream& operator<<(std::ostream& os, const Vector<C, T>& v)
 	{

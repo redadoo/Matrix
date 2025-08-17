@@ -32,6 +32,7 @@ namespace Maft
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float Dot(const Vector<2, T>& other) const;
 
 		// static functions
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static int length() { return 2; }
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float magnitude(Vector<2, T> vector);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float angle_cos(const Vector<2, T>& a, const Vector<2, T>& b);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<2, T> cross_product(const Vector<2, T>& a, const Vector<2, T>& b); 
