@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utils.hpp"
+#include "../utils/utils.hpp"
 #include <cassert>
 #include <iomanip>
 #include "Matrix.hpp"
