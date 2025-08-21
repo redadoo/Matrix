@@ -264,36 +264,20 @@ namespace Maft
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<2, 2, T> Matrix<2, 2, T>::row_echelon() const
 	{
-		Matrix<2, 2, T> res(*this); 
-		constexpr T epsilon = T(1e-7);
+		Matrix<2, 2, T> res(*this);
 
-		if (std::abs(res(0,0)) < epsilon && std::abs(res(1,0)) >= epsilon)
-			res.swap_row();
-
-		if (std::abs(res(0,0)) >= epsilon)
+		if (res(0,0) == T(0) && res(1,0) != T(0)) 
 		{
-			T pivot = res(0,0);
-			res(0,0) /= pivot;
-			res(0,1) /= pivot;
+			std::swap(res(0,0), res(1,0));
+			std::swap(res(0,1), res(1,1));
 		}
 
-		if (std::abs(res(1,0)) >= epsilon)
+		if (res(0,0) != T(0)) 
 		{
-			T factor = res(1,0);
+			T factor = res(1,0) / res(0,0);
 			res(1,0) -= factor * res(0,0);
 			res(1,1) -= factor * res(0,1);
 		}
-
-		if (std::abs(res(1,1)) >= epsilon)
-		{
-			T pivot = res(1,1);
-			res(1,1) /= pivot;
-		}
-
-		if (std::abs(res(0,0)) < epsilon) res(0,0) = T(0);
-		if (std::abs(res(0,1)) < epsilon) res(0,1) = T(0);
-		if (std::abs(res(1,0)) < epsilon) res(1,0) = T(0);
-		if (std::abs(res(1,1)) < epsilon) res(1,1) = T(0);
 
 		return res;
 	}

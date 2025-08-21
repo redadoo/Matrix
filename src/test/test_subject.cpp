@@ -583,32 +583,63 @@ void test_swap()
 
 void test_row_echelon()
 {
-	// {
-	//     Matrix<3, 3, double> u;
-	//     u(0,0) = 1; u(0,1) = 0; u(0,2) = 0;
-	//     u(1,0) = 0; u(1,1) = 1; u(1,2) = 0;
-	//     u(2,0) = 0; u(2,1) = 0; u(2,2) = 1;
-	//     std::cout << u.row_echelon() << "\n\n";
-	// }
-	// {
-	//     Matrix<2, 2, double> u;
-	//     u(0,0) = 1; u(0,1) = 2;
-	//     u(1,0) = 3; u(1,1) = 4;
-	//     std::cout << u.row_echelon() << "\n\n";
-	// }
-	// {
-	//     Matrix<2, 2, double> u;
-	//     u(0,0) = 1; u(0,1) = 2;
-	//     u(1,0) = 2; u(1,1) = 4;
-	//     std::cout << u.row_echelon() << "\n\n";
-	// }
-	// {
-	//     Matrix<3, 5, double> u;
-	//     u(0,0) = 8;   u(0,1) = 5;   u(0,2) = -2;  u(0,3) = 4;  u(0,4) = 28;
-	//     u(1,0) = 4;   u(1,1) = 2.5; u(1,2) = 20;  u(1,3) = 4;  u(1,4) = -4;
-	//     u(2,0) = 8;   u(2,1) = 5;   u(2,2) = 1;   u(2,3) = 4;  u(2,4) = 17;
-	//     std::cout << u.row_echelon() << "\n\n";
-	// }
+	{
+	    Matrix<2, 2, float> u;
+	    u(0,0) = 2; u(0,1) = 3;
+	    u(1,0) = 4; u(1,1) = 5;
+	    std::cout << u.row_echelon() << "\n\n";
+	}
+	{
+	    Matrix<2, 2, float> u;
+	    u(0,0) = 1; u(0,1) = 2;
+	    u(1,0) = 3; u(1,1) = 4;
+	    std::cout << u.row_echelon() << "\n\n";
+	}
+	
+	{
+	    Matrix<2, 2, float> u;
+	    u(0,0) = 1; u(0,1) = 2;
+	    u(1,0) = 2; u(1,1) = 4;
+	    std::cout << u.row_echelon() << "\n\n";
+	}
+
+	{
+	    Matrix<2, 2, float> u;
+	    u(0,0) = 0; u(0,1) = 5;
+	    u(1,0) = 2; u(1,1) = 0;
+	    std::cout << u.row_echelon() << "\n\n";
+	}
+
+	{
+	    Matrix<2, 2, float> u;
+	    u(0,0) = 0; u(0,1) = 0;
+	    u(1,0) = 0; u(1,1) = 0;
+	    std::cout << u.row_echelon() << "\n\n";
+	}
+
+	{
+	    Matrix<2, 2, float> u;
+	    u(0,0) = 1; u(0,1) = 0;
+	    u(1,0) = 0; u(1,1) = 0;
+	    std::cout << u.row_echelon() << "\n\n";
+	}
+
+	{
+	    Matrix<3, 3, double> u;
+	    u(0,0) = 1; u(0,1) = 0; u(0,2) = 0;
+	    u(1,0) = 0; u(1,1) = 1; u(1,2) = 0;
+	    u(2,0) = 0; u(2,1) = 0; u(2,2) = 1;
+	    std::cout << u.row_echelon() << "\n\n";
+	}
+
+	{
+	    Matrix<3, 5, double> u;
+	    u(0,0) = 8;   u(0,1) = 5;   u(0,2) = -2;  u(0,3) = 4;  u(0,4) = 28;
+	    u(1,0) = 4;   u(1,1) = 2.5; u(1,2) = 20;  u(1,3) = 4;  u(1,4) = -4;
+	    u(2,0) = 8;   u(2,1) = 5;   u(2,2) = 1;   u(2,3) = 4;  u(2,4) = 17;
+		std::cout << u << "\n\n";
+		std::cout << u.row_echelon() << "\n\n";
+	}
 }
 
 void test_determinant()

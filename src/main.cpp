@@ -3,6 +3,6 @@
 
 int main(void)
 {
-    test_determinant();
+    test_row_echelon();
     return 0;
 }

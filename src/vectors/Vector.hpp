@@ -1,6 +1,6 @@
 #pragma once
 
-#include "setup.hpp"
+#include "../setup.hpp"
 #include <cstddef>
 #include <array>
 #include <iostream>

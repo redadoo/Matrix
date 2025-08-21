@@ -1,5 +1,5 @@
 #pragma once
 
-#include "Vectors.hpp"
-#include "Matrixs.hpp"
+#include "vector_types.hpp"
+#include "matrix_types.hpp"
 #include "definition.hpp"
