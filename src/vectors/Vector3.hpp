@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector.hpp"
+#include "../vectors/Vector.hpp"
 
 namespace Maft
 {
