@@ -90,3 +90,9 @@
 #else
 #   define MAFT_CONSTEXPR
 #endif
+
+#if (MAFT_LANG & MAFT_CXX11_FLAG)
+#	define MAFT_STATIC_ASSERT(x, message) static_assert(x, message)
+#else
+#   define MAFT_STATIC_ASSERT(x, message)
+#endif

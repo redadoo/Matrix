@@ -500,6 +500,8 @@ namespace Maft
 				m1[3] != m2[3];
 	}
 
+	// print
+
 	template<typename T>
 	std::ostream& operator<<(std::ostream& os, const Matrix<2, 2, T>& m)
 	{

@@ -688,6 +688,8 @@ namespace Maft
 				m1[8] != m2[8];
 	}
 
+	// print
+
 	template<typename T>
 	std::ostream& operator<<(std::ostream& os, const Matrix<3, 3, T>& m)
 	{

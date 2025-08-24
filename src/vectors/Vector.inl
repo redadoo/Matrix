@@ -87,16 +87,16 @@ namespace Maft
 	{
 		float res = 0;
 		for (size_t i = 0; i < C; i++)
-			res += std::abs(data[i]);
+			res += abs(data[i]);
 		return res;
 	}
 
 	template<std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::norm_inf() const 
 	{
-		float max_val = std::abs(data[0]);
+		float max_val = abs(data[0]);
 		for (size_t i = 1; i < C; i++)
-			max_val = std::max(max_val, std::abs(data[i]));
+			max_val = std::max(max_val, abs(data[i]));
 		return max_val;
 	}
 

@@ -4,6 +4,8 @@
 int main(void)
 {
     // test_row_echelon();
-    test_hash();
+    // test_hash();
+    // test_radiant();
+    test_rotation();
     return 0;
 }

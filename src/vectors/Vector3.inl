@@ -9,6 +9,8 @@
 
 namespace Maft
 {
+	// constructors
+
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T>::Vector(const Vector<3, T>& other)
 	{
@@ -33,7 +35,9 @@ namespace Maft
 		this->z = n;
 	}
 
-	template<typename T>
+	// assignment operators (vector vector)
+
+	template <typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T>& Vector<3, T>::operator=(const Vector<3, T>& other)
 	{
 		this->x = other.x;
@@ -42,16 +46,124 @@ namespace Maft
 		return *this;
 	}
 
-	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR bool Vector<3, T>::operator==(const Vector<3, T> &other) const
+	template <typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T>& Vector<3, T>::operator+=(const Vector<3, T>&other)
 	{
-		return  this->x == other.x && 
-				this->y == other.y && 
-				this->z == other.z;
+		this->x += other.x;
+		this->y += other.y;
+		this->z += other.z;
+		return *this;
+	}
+
+    template <typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T>& Vector<3, T>::operator-=(const Vector<3, T>&other)
+	{
+		this->x -= other.x;
+		this->y -= other.y;
+		this->z -= other.z;
+		return *this;
 	}
 
 	template <typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Vector<3, T>::operator[](int index)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T>& Vector<3, T>::operator*=(const Vector<3, T>&other)
+	{
+		this->x *= other.x;
+		this->y *= other.y;
+		this->z *= other.z;
+		return *this;
+	}
+
+	template <typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T>& Vector<3, T>::operator/=(const Vector<3, T>&other)
+	{
+		this->x /= other.x;
+		this->y /= other.y;
+		this->z /= other.z;
+		return *this;
+	}
+
+	// assignment operators (vector scalar)
+
+	template <typename T>
+    template <typename U>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T>& Vector<3, T>::operator+=(U s)
+    {
+		this->x += s;
+		this->y += s;
+		this->z += s;
+		return *this;
+	}
+
+    template <typename T>
+    template <typename U>
+    MAFT_CONSTEXPR Vector<3, T>& Vector<3, T>::operator-=(U s)
+    {
+		this->x -= s;
+		this->y -= s;
+		this->z -= s;
+		return *this;
+	}
+
+	template <typename T>
+    template <typename U>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T> &Vector<3, T>::operator*=(U s)
+    {
+		this->x *= s;
+		this->y *= s;
+		this->z *= s;
+		return *this;
+	}
+
+	template <typename T>
+    template <typename U>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T>& Vector<3, T>::operator/=(U s)
+    {
+		this->x /= s;
+		this->y /= s;
+		this->z /= s;
+		return *this;
+	}
+
+	// increment / decrement
+
+	template <typename T>
+	Vector<3, T>& Vector<3, T>::operator++()
+	{
+		this->x++;
+		this->y++;
+		this->z++;
+		return *this;
+	}
+
+	template <typename T>
+	Vector<3, T>& Vector<3, T>::operator--()
+	{
+		this->x--;
+		this->y--;
+		this->z--;
+		return *this;
+	}
+	
+	template <typename T>
+	Vector<3, T> Vector<3, T>::operator++(int)
+	{
+		Vector<3, T> res(*this);
+		++*this;
+		return res;
+	}
+
+	template <typename T>
+	Vector<3, T> Vector<3, T>::operator--(int)
+	{
+		Vector<3, T> res(*this);
+		--*this;
+		return res;
+	}
+
+	// element access
+
+	template <typename T>
+	MAFT_FORCE_INLINE T& Vector<3, T>::operator[](int index)
 	{
 		switch (index)
 		{
@@ -76,62 +188,56 @@ namespace Maft
 		}
 	}
 
-	template <typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<3, T>::Add(const Vector<3, T> &other)
-	{
-		this->x += other.x;
-		this->y += other.y;
-		this->z += other.z;
-	}
+	// vector Operations
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<3, T>::Subtract(const Vector<3, T>& other) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<3, T>::Add(const Vector<3, T>& other) 
 	{
-		this->x -= other.x;
-		this->y -= other.y;
-		this->z -= other.z;
+		(*this) += other;
 	}
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<3, T>::Scale(const Vector<3, T>& other) 
 	{
-		this->x *= other.x;
-		this->y *= other.y;
-		this->z *= other.z;
+		(*this) *= other;
 	}
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<3, T>::Scale(const T& scalar) 
 	{
-		this->x *= scalar;
-		this->y *= scalar;
-		this->z *= scalar;
+		(*this) *= scalar;
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<3, T>::Dot(const Vector<3, T>& other) const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Vector<3, T>::Subtract(const Vector<3, T>& other) 
+	{
+		(*this) -= other;
+	}
+
+	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<3, T>::Dot(const Vector<3, T>& other) const 
 	{
 		return this->x * other.x + this->y * other.y + this->z * other.z;
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<3, T>::norm() const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<3, T>::norm() const 
 	{
 		return sqrt(x * x + y * y + z * z);
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<3, T>::norm_1() const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<3, T>::norm_1() const 
 	{
-		return (std::abs(x) + std::abs(y) + std::abs(z));
+		return (abs(x) + abs(y) + abs(z));
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<3, T>::norm_inf() const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<3, T>::norm_inf() const 
 	{
-		T ax = std::abs(x);
-		T ay = std::abs(y);
-		T az = std::abs(z);
+		T ax = abs(x);
+		T ay = abs(y);
+		T az = abs(z);
 
 		T maxVal = ax;
 		if (ay > maxVal) maxVal = ay;
@@ -139,6 +245,8 @@ namespace Maft
 
 		return maxVal;
 	}
+
+	// static utility functions
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T> Vector<3, T>::Lerp(const Vector<3, T>& a, const Vector<3, T>& b, float t)
@@ -177,13 +285,13 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<3, T>::magnitude(const Vector<3, T>& vector) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<3, T>::magnitude(const Vector<3, T>& vector) 
 	{
 		return sqrt(vector.x * vector.x + vector.y * vector.y); 
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<3, T>::angle_cos(const Vector<3, T>& a, const Vector<3, T>& b) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<3, T>::angle_cos(const Vector<3, T>& a, const Vector<3, T>& b) 
 	{
 		float dot = a.Dot(b);
 		float mag1 = a.norm();
@@ -194,6 +302,161 @@ namespace Maft
 
 		return dot / (mag1 * mag2);
 	}
+	
+	// unary operators
+
+	template<typename T>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T> operator+(const Vector<3, T> &m)
+    {
+		return m;
+	}
+
+    template<typename T>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T> operator-(const Vector<3, T> &m)
+    {
+		m.x = -m.x;
+		m.y = -m.y;
+		m.z = -m.z;
+		return m;
+	}
+
+	// binary operators
+
+	template<typename T>
+    Vector<3, T> operator+(const Vector<3, T> &m, T scalar)
+    {
+		Vector<3, T> res;
+		res.x = m.x + scalar;
+		res.y = m.y + scalar;
+		res.z = m.z + scalar;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator+(T scalar, const Vector<3, T> &m)
+    {
+		Vector<3, T> res;
+		res.x = m.x + scalar;
+		res.y = m.y + scalar;
+		res.z = m.z + scalar;
+		return res;
+	}
+
+    template<typename T>
+    Maft::Vector<3, T> operator+(const Vector<3, T> &m1, const Vector<3, T> &m2)
+    {
+		Vector<3, T> res;
+		res.x = m1.x + m2.x;
+		res.y = m1.y + m2.y;
+		res.z = m1.z + m2.z;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator-(const Vector<3, T> &m, T scalar)
+    {
+		Vector<3, T> res;
+		res.x = m.x - scalar;
+		res.y = m.y - scalar;
+		res.z = m.z - scalar;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator-(T scalar, const Vector<3, T> &m)
+    {
+		Vector<3, T> res;
+		res.x = m.x - scalar;
+		res.y = m.y - scalar;
+		res.z = m.z - scalar;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator-(const Vector<3, T> &m1, const Vector<3, T> &m2)
+    {
+		Vector<3, T> res;
+		res.x = m1.x - m2.x;
+		res.y = m1.y - m2.y;
+		res.z = m1.z - m2.z;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator*(const Vector<3, T> &m, T scalar)
+    {
+		Vector<3, T> res;
+		res.x = m.x * scalar;
+		res.y = m.y * scalar;
+		res.z = m.z * scalar;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator*(T scalar, const Vector<3, T> &m)
+    {
+		Vector<3, T> res;
+		res.x = m.x * scalar;
+		res.y = m.y * scalar;
+		res.z = m.z * scalar;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator*(const Vector<3, T> &m1, const Vector<3, T> &m2)
+    {
+		Vector<3, T> res;
+		res.x = m1.x * m2.x;
+		res.y = m1.y * m2.y;
+		res.z = m1.z * m2.z;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator/(const Vector<3, T> &m, T scalar)
+    {
+		Vector<3, T> res;
+		res.x = m.x / scalar;
+		res.y = m.y / scalar;
+		res.z = m.z / scalar;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator/(T scalar, const Vector<3, T> &m)
+    {
+		Vector<3, T> res;
+		res.x = m.x / scalar;
+		res.y = m.y / scalar;
+		res.z = m.z / scalar;
+		return res;
+	}
+
+    template<typename T>
+    Vector<3, T> operator/(const Vector<3, T> &m1, const Vector<3, T> &m2)
+    {
+		Vector<3, T> res;
+		res.x = m1.x / m2.x;
+		res.y = m1.y / m2.y;
+		res.z = m1.z / m2.z;
+		return res;
+	}
+
+	// comparison operators
+
+	template<typename T>
+    MAFT_CONSTEXPR bool Maft::operator==(const Vector<3, T>& m1, const Vector<3, T>& m2)
+	{
+		return m1.x == m2.x && m1.y == m2.y && m1.z == m2.z;
+	}
+
+	template<typename T>
+	MAFT_CONSTEXPR bool Maft::operator!=(const Vector<3, T> &m1, const Vector<3, T> &m2)
+	{
+		return m1.x != m2.x && m1.y != m2.y && m1.z != m2.z;
+	}
+
+	// print
 
 	template<typename T>
 	std::ostream& operator<<(std::ostream& os, const Vector<3, T>& v)

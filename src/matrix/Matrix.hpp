@@ -52,9 +52,9 @@ namespace Maft
 
 		//  element access
 
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator()(std::size_t row, std::size_t col);
+		MAFT_NODISCARD MAFT_FORCE_INLINE T& operator()(std::size_t row, std::size_t col);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator()(std::size_t row, std::size_t col) const;
-
+		
 		// matrix Operations
 
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const T& scalar);

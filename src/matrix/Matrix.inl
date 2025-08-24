@@ -140,7 +140,7 @@ namespace Maft
 	//  element access
 	
 	template<std::size_t R, std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col)
+	MAFT_FORCE_INLINE T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col)
 	{
 		assert(row < R && col < C);
 		return data[col * R + row];
@@ -270,7 +270,7 @@ namespace Maft
 				break;
 
 			std::size_t i = r;
-			while (i < R && std::abs(m(i, lead)) < epsilon)
+			while (i < R && abs(m(i, lead)) < epsilon)
 				++i;
 
 			if (i == R)
@@ -284,7 +284,7 @@ namespace Maft
 				m.swap_row(i, r);
 
 			T pivot = m(r, lead);
-			if (std::abs(pivot) >= epsilon)
+			if (abs(pivot) >= epsilon)
 			{
 				for (std::size_t col = 0; col < C; ++col)
 					m(r, col) /= pivot;
@@ -293,7 +293,7 @@ namespace Maft
 			for (std::size_t row_below = r + 1; row_below < R; ++row_below)
 			{
 				T factor = m(row_below, lead);
-				if (std::abs(factor) >= epsilon)
+				if (abs(factor) >= epsilon)
 				{
 					for (std::size_t col = 0; col < C; ++col)
 						m(row_below, col) -= factor * m(r, col);
@@ -305,7 +305,7 @@ namespace Maft
 
 		for (std::size_t row = 0; row < R; ++row)
 			for (std::size_t col = 0; col < C; ++col)
-				if (std::abs(m(row, col)) < epsilon)
+				if (abs(m(row, col)) < epsilon)
 					m(row, col) = T(0);
 
 		return m;
@@ -524,6 +524,8 @@ namespace Maft
 		}
 		return true;
 	}
+
+	// print
 
 	template<std::size_t R, std::size_t C, typename T>
 	std::ostream& operator<<(std::ostream& os, const Matrix<R, C, T>& m)
