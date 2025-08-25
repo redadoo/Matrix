@@ -75,6 +75,8 @@ namespace Maft
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> row_echelon() const;
 
 		// static utility functions
+
+		MAFT_CONSTEXPR static Matrix<R,C,T> Identity();
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<R, C, T> Lerp(const Matrix& a, const Matrix& b, float t);
 
 		// // friend

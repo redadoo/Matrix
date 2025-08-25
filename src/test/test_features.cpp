@@ -63,8 +63,8 @@ void test_radiant()
 
 void test_rotation()
 {
-    Matrix<4, 4, float> I(1.0f); 
-
+    Matrix<4, 4, float> I = Matrix<4,4,float>::Identity(); 
+    
     Vector<3, float> axisZ{0.0f, 0.0f, 1.0f};
     float angle = radians(90.0f);
 
@@ -73,7 +73,6 @@ void test_rotation()
     Vector<4, float> vec{1.0f, 0.0f, 0.0f, 1.0f};
     Vector<4, float> rotatedVec;
     
-    // Multiply matrix Rz * vec
     for(int i=0; i<4; ++i)
     {
         rotatedVec[i] = 0.0f;
@@ -81,9 +80,55 @@ void test_rotation()
             rotatedVec[i] += Rz(i,j) * vec[j];
     }
 
-    std::cout << "Original vector: (" << vec[0] << ", " << vec[1] << ", " << vec[2] << ")\n";
-    std::cout << "Rotated 90 deg around Z: (" 
-              << rotatedVec[0] << ", " 
-              << rotatedVec[1] << ", " 
-              << rotatedVec[2] << ")\n";
+    std::cout << "Original vector: " << vec << "\n";
+    std::cout << "Rotated: " << rotatedVec << "\n";
+}
+
+void test_lookat()
+{
+    using T = float;
+
+    Vector<3, T> eye{0.0f, 0.0f, 5.0f};    
+    Vector<3, T> center{0.0f, 0.0f, 0.0f}; 
+    Vector<3, T> up{0.0f, 1.0f, 0.0f};     
+
+    Matrix<4, 4, T> view = lookAtRH(eye, center, up);
+
+    std::cout << "\n" << view << "\n";
+
+    Vector<4, T> target{center.x, center.y, center.z, 1.0f};
+    Vector<4, T> transformed;
+    for(int i=0; i<4; ++i)
+    {
+        transformed[i] = 0.0f;
+        for(int j=0; j<4; ++j)
+            transformed[i] += view(i,j) * target[j];
+    }
+
+    std::cout << transformed << "\n";
+
+}
+
+void test_perspective()
+{
+    float fovy   = radians(90.0f); 
+    float aspect = 16.0f / 9.0f;   
+    float zNear  = 0.1f;
+    float zFar   = 100.0f;
+
+    Matrix<4, 4, float> proj = perspectiveRH_ZO(fovy, aspect, zNear, zFar);
+
+    std::cout << "\n" << proj << "\n";
+
+    Vector<4, float> point{0.0f, 0.0f, -1.0f, 1.0f};
+    Vector<4, float> projected;
+
+    for (int i = 0; i < 4; ++i)
+    {
+        projected[i] = 0.0f;
+        for (int j = 0; j < 4; ++j)
+            projected[i] += proj(i, j) * point[j];
+    }
+
+    std::cout << projected << "\n";
 }

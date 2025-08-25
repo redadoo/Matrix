@@ -372,6 +372,15 @@ namespace Maft
 	//  matrix Operations
 
 	template<typename T>
+	MAFT_CONSTEXPR Matrix<4,4,T> Matrix<4, 4, T>::Identity()
+	{
+		Matrix<4,4,T> I{};
+		for(int i=0;i<4;++i)
+			I(i,i) = T(1);
+		return I;
+	}
+
+	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<4, 4, T>::Add(const Matrix<4, 4, T>& other)
 	{
 		(*this) += other;
@@ -395,6 +404,29 @@ namespace Maft
 		(*this) -= other;
 	}
 
+
+	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<4, T> Matrix<4, 4, T>::get_column(std::size_t index) const
+    {
+		assert(index < 4);
+		Vector<4, T> column;
+		column[0] = this->data[index * 4 + 0];
+		column[1] = this->data[index * 4 + 1];
+		column[2] = this->data[index * 4 + 2];
+		column[3] = this->data[index * 4 + 3];
+		return column;
+	}
+
+	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<4, 4, T>::set_column(std::size_t index, Vector<4, T> v)
+    {
+		assert(index < 4);
+		this->data[index * 4 + 0] = v[0];
+		this->data[index * 4 + 1] = v[1];
+		this->data[index * 4 + 2] = v[2];
+		this->data[index * 4 + 3] = v[3];
+	}
+
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<4, 4, T>::swap_column(int first_column_index, int second_column_index)
 	{
@@ -404,8 +436,8 @@ namespace Maft
 		std::swap((*this)(3, first_column_index), (*this)(3, second_column_index));
 	}
 
-	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<4, 4, T>::swap_row(int first_row_index, int second_row_index)
+    template <typename T>
+    MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<4, 4, T>::swap_row(int first_row_index, int second_row_index)
 	{
 		std::swap((*this)(first_row_index, 0), (*this)(second_row_index, 0));
 		std::swap((*this)(first_row_index, 1), (*this)(second_row_index, 1));
@@ -793,26 +825,30 @@ namespace Maft
 	}
 
 	template<typename T>
-	Matrix<4, 4, T> operator*(const Matrix<4, 4, T> &m1, const Matrix<4, 4, T> &m2)
+	Matrix<4, 4, T> operator*(const Matrix<4, 4, T> &a, const Matrix<4, 4, T> &b)
 	{
-		Matrix<4, 4, T> res;
-		res[0] = m1[0] * m2[0];
-		res[1] = m1[1] * m2[1];
-		res[2] = m1[2] * m2[2];
-		res[3] = m1[3] * m2[3];
-		res[4] = m1[4] * m2[4];
-		res[5] = m1[5] * m2[5];
-		res[6] = m1[6] * m2[6];
-		res[7] = m1[7] * m2[7];
-		res[8] = m1[8] * m2[8];
-		res[9] = m1[9] * m2[9];
-		res[10] = m1[10] * m2[10];
-		res[11] = m1[11] * m2[11];
-		res[12] = m1[12] * m2[12];
-		res[13] = m1[13] * m2[13];
-		res[14] = m1[14] * m2[14];
-		res[15] = m1[15] * m2[15];
-		return res;
+		Matrix<4,4,T> r;
+
+		r(0,0) = a(0,0)*b(0,0) + a(0,1)*b(1,0) + a(0,2)*b(2,0) + a(0,3)*b(3,0);
+		r(1,0) = a(1,0)*b(0,0) + a(1,1)*b(1,0) + a(1,2)*b(2,0) + a(1,3)*b(3,0);
+		r(2,0) = a(2,0)*b(0,0) + a(2,1)*b(1,0) + a(2,2)*b(2,0) + a(2,3)*b(3,0);
+		r(3,0) = a(3,0)*b(0,0) + a(3,1)*b(1,0) + a(3,2)*b(2,0) + a(3,3)*b(3,0);
+
+		r(0,1) = a(0,0)*b(0,1) + a(0,1)*b(1,1) + a(0,2)*b(2,1) + a(0,3)*b(3,1);
+		r(1,1) = a(1,0)*b(0,1) + a(1,1)*b(1,1) + a(1,2)*b(2,1) + a(1,3)*b(3,1);
+		r(2,1) = a(2,0)*b(0,1) + a(2,1)*b(1,1) + a(2,2)*b(2,1) + a(2,3)*b(3,1);
+		r(3,1) = a(3,0)*b(0,1) + a(3,1)*b(1,1) + a(3,2)*b(2,1) + a(3,3)*b(3,1);
+
+		r(0,2) = a(0,0)*b(0,2) + a(0,1)*b(1,2) + a(0,2)*b(2,2) + a(0,3)*b(3,2);
+		r(1,2) = a(1,0)*b(0,2) + a(1,1)*b(1,2) + a(1,2)*b(2,2) + a(1,3)*b(3,2);
+		r(2,2) = a(2,0)*b(0,2) + a(2,1)*b(1,2) + a(2,2)*b(2,2) + a(2,3)*b(3,2);
+		r(3,2) = a(3,0)*b(0,2) + a(3,1)*b(1,2) + a(3,2)*b(2,2) + a(3,3)*b(3,2);
+
+		r(0,3) = a(0,0)*b(0,3) + a(0,1)*b(1,3) + a(0,2)*b(2,3) + a(0,3)*b(3,3);
+		r(1,3) = a(1,0)*b(0,3) + a(1,1)*b(1,3) + a(1,2)*b(2,3) + a(1,3)*b(3,3);
+		r(2,3) = a(2,0)*b(0,3) + a(2,1)*b(1,3) + a(2,2)*b(2,3) + a(2,3)*b(3,3);
+		r(3,3) = a(3,0)*b(0,3) + a(3,1)*b(1,3) + a(3,2)*b(2,3) + a(3,3)*b(3,3);
+		return r;
 	}
 
 	template<typename T>
@@ -933,10 +969,12 @@ namespace Maft
 	template<typename T>
 	std::ostream& operator<<(std::ostream& os, const Matrix<4, 4, T>& m)
 	{
-		os  << "[" << m(0, 0) << ", " << m(0, 1) << ", " << m(0, 2) << ", " << m(0, 3) << "]\n"
-			<< "[" << m(1, 0) << ", " << m(1, 1) << ", " << m(1, 2) << ", " << m(1, 3) << "]\n"
-			<< "[" << m(2, 0) << ", " << m(2, 1) << ", " << m(2, 2) << ", " << m(2, 3) << "]\n"
-			<< "[" << m(3, 0) << ", " << m(3, 1) << ", " << m(3, 2) << ", " << m(3, 3) << "]";
+		auto fmt = [](T x) { return (abs(x) < 1e-6f) ? T(0) : x; };
+
+		os  << "[" << fmt(m(0, 0)) << ", " << fmt(m(0, 1)) << ", " << fmt(m(0, 2)) << ", " << fmt(m(0, 3)) << "]\n"
+			<< "[" << fmt(m(1, 0)) << ", " << fmt(m(1, 1)) << ", " << fmt(m(1, 2)) << ", " << fmt(m(1, 3)) << "]\n"
+			<< "[" << fmt(m(2, 0)) << ", " << fmt(m(2, 1)) << ", " << fmt(m(2, 2)) << ", " << fmt(m(2, 3)) << "]\n"
+			<< "[" << fmt(m(3, 0)) << ", " << fmt(m(3, 1)) << ", " << fmt(m(3, 2)) << ", " << fmt(m(3, 3)) << "]";
 		return os;
 	}
 }
