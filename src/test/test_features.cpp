@@ -86,16 +86,16 @@ void test_rotation()
 
 void test_lookat()
 {
-    Vector<3, T> eye{0.0f, 0.0f, 5.0f};    
-    Vector<3, T> center{0.0f, 0.0f, 0.0f}; 
-    Vector<3, T> up{0.0f, 1.0f, 0.0f};     
+    Vector<3, float> eye{0.0f, 0.0f, 5.0f};    
+    Vector<3, float> center{0.0f, 0.0f, 0.0f}; 
+    Vector<3, float> up{0.0f, 1.0f, 0.0f};     
 
-    Matrix<4, 4, T> view = lookAtRH(eye, center, up);
+    Matrix<4, 4, float> view = lookAtRH(eye, center, up);
 
     std::cout << "\n" << view << "\n";
 
-    Vector<4, T> target{center.x, center.y, center.z, 1.0f};
-    Vector<4, T> transformed;
+    Vector<4, float> target{center.x, center.y, center.z, 1.0f};
+    Vector<4, float> transformed;
     for(int i=0; i<4; ++i)
     {
         transformed[i] = 0.0f;
