@@ -51,26 +51,17 @@ namespace Maft
 	Matrix<4, 4, T> lookAtLH(const Vector<3, T>& eye, const Vector<3, T>& center, const Vector<3, T>& up)
 	{
 		Vector<3, T> f = normalize(center - eye);
-		Vector<3, T> s = normalize(cross(up, f));
-		Vector<3, T> u = cross(f, s);
+		Vector<3, T> s = normalize(Vector3f::cross_product(up, f));
+		Vector<3, T> u = Vector3f::cross_product(f, s);
 
 		Matrix<4, 4, T> result = Matrix<4,4,T>::Identity();
 
-		result(0,0) = s.x;
-		result(1,0) = s.y;
-		result(2,0) = s.z;
-
-		result(0,1) = u.x;
-		result(1,1) = u.y;
-		result(2,1) = u.z;
-
-		result(0,2) = f.x;
-		result(1,2) = f.y;
-		result(2,2) = f.z;
-
-		result(3,0) = -dot(s, eye);
-		result(3,1) = -dot(u, eye);
-		result(3,2) = -dot(f, eye);
+		result(0,0) = s.x; result(0,1) = u.x; result(0,2) = f.x; result(0,3) = 0;
+		result(1,0) = s.y; result(1,1) = u.y; result(1,2) = f.y; result(1,3) = 0;
+		result(2,0) = s.z; result(2,1) = u.z; result(2,2) = f.z; result(2,3) = 0;
+		result(3,0) = -s.Dot(eye); 
+		result(3,1) = -u.Dot(eye); 
+		result(3,2) = -f.Dot(eye); 
 
 		return result;
 	}
