@@ -39,21 +39,10 @@ namespace Maft
 
 		Matrix<4, 4, T> result = Matrix<4,4,T>::Identity();
 
-		result(0,0) = s.x;
-		result(1,0) = s.y;
-		result(2,0) = s.z;
-
-		result(0,1) = u.x;
-		result(1,1) = u.y;
-		result(2,1) = u.z;
-
-		result(0,2) = -f.x;
-		result(1,2) = -f.y;
-		result(2,2) = -f.z;
-
-		result(3,0) = -s.Dot(eye);
-		result(3,1) = -u.Dot(eye);
-		result(3,2) =  f.Dot(eye);
+		result(0,0) = s.x; result(1,0) = s.y; result(2,0) = s.z; result(3,0) = -s.Dot(eye);
+		result(0,1) = u.x; result(1,1) = u.y; result(2,1) = u.z; result(3,1) = -u.Dot(eye);
+		result(0,2) = -f.x; result(1,2) = -f.y; result(2,2) = -f.z; result(3,2) = f.Dot(eye);
+		result(0,3) = 0;    result(1,3) = 0;    result(2,3) = 0;    result(3,3) = 1;
 
 		return result;
 	}
@@ -67,22 +56,18 @@ namespace Maft
 
 		Matrix<4, 4, T> result = Matrix<4,4,T>::Identity();
 
-		// Column 0
 		result(0,0) = s.x;
 		result(1,0) = s.y;
 		result(2,0) = s.z;
 
-		// Column 1
 		result(0,1) = u.x;
 		result(1,1) = u.y;
 		result(2,1) = u.z;
 
-		// Column 2
 		result(0,2) = f.x;
 		result(1,2) = f.y;
 		result(2,2) = f.z;
 
-		// Translation (column 3)
 		result(3,0) = -dot(s, eye);
 		result(3,1) = -dot(u, eye);
 		result(3,2) = -dot(f, eye);
@@ -105,6 +90,7 @@ namespace Maft
 		T const tanHalfFovy = std::tan(fovy / static_cast<T>(2));
 
 		Matrix<4, 4, T> Result(static_cast<T>(0));
+
 		Result(0,0) = static_cast<T>(1) / (aspect * tanHalfFovy);
 		Result(1,1) = static_cast<T>(1) / tanHalfFovy;
 		Result(2,2) = zFar / (zNear - zFar);
