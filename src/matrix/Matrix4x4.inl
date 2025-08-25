@@ -358,14 +358,14 @@ namespace Maft
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<4, 4, T>::operator[](std::size_t index)
 	{
-		assert(index < 4);
+		assert(index < 16);
 		return data[index];
 	}
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<4, 4, T>::operator[](std::size_t index) const
 	{
-		assert(index < 4);
+		assert(index < 16);
 		return data[index];
 	}
 

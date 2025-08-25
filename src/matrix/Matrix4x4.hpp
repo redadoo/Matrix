@@ -11,7 +11,7 @@ namespace Maft
 
 		// Constructors
 		
-		Matrix() = default;
+		Matrix() : data{} {}
 		MAFT_CONSTEXPR Matrix(const T& x);
 		MAFT_CONSTEXPR Matrix(const Matrix& other);
 		MAFT_CONSTEXPR Matrix(

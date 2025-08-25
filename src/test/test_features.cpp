@@ -130,3 +130,15 @@ void test_perspective()
 
     std::cout << projected << "\n";
 }
+
+void test_alignment()
+{
+    std::cout << " sizeof(Maft::Matrix4x4f) " << sizeof(Maft::Matrix4x4f) << std::endl;
+
+    Maft::Matrix4x4f test;
+    test(0,0) = 1; test(1,0) = 2; test(2,0) = 3; test(3,0) = 4;
+    test(0,1) = 5; test(1,1) = 6; test(2,1) = 7; test(3,1) = 8;
+
+    float* data = &test(0,0);
+    for(int i=0;i<16;i++) std::cout << data[i] << " ";
+}
