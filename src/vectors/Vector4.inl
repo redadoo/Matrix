@@ -484,14 +484,13 @@ namespace Maft
 	template<typename T>
 	std::ostream& operator<<(std::ostream& os, const Vector<4, T>& v)
 	{
+		auto fmt = [](T x) { return (abs(x) < 1e-6f) ? T(0) : x; };
+
 		os << '{'
-		<< v.x 
-		<< ", " 
-		<< v.y 
-		<< ", " 
-		<< v.z 
-		<< ", " 
-		<< v.w 
+		<< fmt(v.x) << ", "
+		<< fmt(v.y) << ", "
+		<< fmt(v.z) << ", "
+		<< fmt(v.w)
 		<< '}';
 		return os;
 	}

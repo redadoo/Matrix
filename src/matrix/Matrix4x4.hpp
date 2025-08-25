@@ -58,6 +58,12 @@ namespace Maft
 
 		//  matrix Operations
 
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<4, T> get_column(std::size_t index) const;
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<4, T> get_row(std::size_t index) const;
+
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void set_column(std::size_t index, Vector<4, T> v);
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void set_row(std::size_t index, Vector<4, T> v);
+
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void swap_row(int first_row_index, int second_row_index);
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void swap_column(int first_column_index, int second_column_index);
 
@@ -75,6 +81,8 @@ namespace Maft
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<4, 4, T> transpose() const;
 
 		// static utility functions
+
+		MAFT_CONSTEXPR static Matrix<4,4,T> Identity();
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<4, 4, T> Lerp(const Matrix& a, const Matrix& b, float t);
 
 		// // friend

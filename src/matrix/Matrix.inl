@@ -347,6 +347,15 @@ namespace Maft
 	// static utility functions
 
 	template <std::size_t R, std::size_t C, typename T>
+	MAFT_CONSTEXPR Matrix<R, C, T> Matrix<R, C, T>::Identity()
+	{
+		Matrix<R,C,T> I{};
+		for(int i=0;i<C;++i)
+			I(i,i) = T(1);
+		return I;
+	}
+
+	template <std::size_t R, std::size_t C, typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<R, C, T> Matrix<R, C, T>::Lerp(const Matrix<R, C, T> &a, const Matrix<R, C, T> &b, float t)
 	{
 		t = clamp01(t);
