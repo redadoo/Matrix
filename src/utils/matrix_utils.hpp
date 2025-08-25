@@ -1,6 +1,6 @@
 #include "../utils/vector_utils.hpp"
 #include <math.h>
-#include "Maft.hpp"
+#include "../Maft.hpp"
 
 namespace Maft
 {

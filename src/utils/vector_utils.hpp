@@ -1,4 +1,4 @@
-#include "Maft.hpp"
+#include "../Maft.hpp"
 
 namespace Maft
 {
