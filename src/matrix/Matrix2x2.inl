@@ -203,6 +203,13 @@ namespace Maft
 	//  matrix Operations
 
 	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::inverse()
+	{
+		if (determinant() == 0)
+			return;
+	}
+
+	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::Add(const Matrix& other)
 	{
 		(*this) += other;
@@ -305,6 +312,15 @@ namespace Maft
 	}
 
 	// static utility functions
+
+	template<typename T>
+	MAFT_CONSTEXPR Matrix<2, 2,T> Matrix<2, 2, T>::Identity()
+	{
+		Matrix<2, 2,T> I{};
+		for(int i=0;i<2;++i)
+			I(i,i) = T(1);
+		return I;
+	}
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<2, 2, T> Matrix<2, 2, T>::Lerp(const Matrix<2, 2, T> &a, const Matrix<2, 2, T> &b, float t)

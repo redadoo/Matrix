@@ -56,6 +56,8 @@ namespace Maft
 
 		//  matrix Operations
 
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR void inverse();
+
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void swap_row();
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void swap_column();
 
@@ -73,6 +75,8 @@ namespace Maft
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<2, 2, T> row_echelon() const;
 
 		// static utility functions
+
+		MAFT_CONSTEXPR static Matrix<2,2,T> Identity();
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Matrix<2, 2, T> Lerp(const Matrix& a, const Matrix& b, float t);
 
 		// // friend

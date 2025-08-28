@@ -272,6 +272,12 @@ namespace Maft
 	//  natrix Operations
 
 	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<3, 3, T>::inverse()
+	{
+		
+	}
+
+	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<3, 3, T>::Add(const Matrix<3, 3, T>& other)
 	{
 		(*this) += other;
@@ -420,6 +426,15 @@ namespace Maft
 	}
 
 	// static utility functions
+
+	template<typename T>
+	MAFT_CONSTEXPR Matrix<3, 3,T> Matrix<3, 3, T>::Identity()
+	{
+		Matrix<3, 3,T> I{};
+		for(int i=0;i<3;++i)
+			I(i,i) = T(1);
+		return I;
+	}
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<3, 3, T> Matrix<3, 3, T>::Lerp(const Matrix<3, 3, T> &a, const Matrix<3, 3, T> &b, float t)

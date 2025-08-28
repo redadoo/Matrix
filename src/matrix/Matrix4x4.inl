@@ -372,12 +372,9 @@ namespace Maft
 	//  matrix Operations
 
 	template<typename T>
-	MAFT_CONSTEXPR Matrix<4,4,T> Matrix<4, 4, T>::Identity()
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<4, 4, T>::inverse()
 	{
-		Matrix<4,4,T> I{};
-		for(int i=0;i<4;++i)
-			I(i,i) = T(1);
-		return I;
+		
 	}
 
 	template<typename T>
@@ -582,6 +579,15 @@ namespace Maft
 	}
 
 	// static utility functions
+
+	template<typename T>
+	MAFT_CONSTEXPR Matrix<4,4,T> Matrix<4, 4, T>::Identity()
+	{
+		Matrix<4,4,T> I{};
+		for(int i=0;i<4;++i)
+			I(i,i) = T(1);
+		return I;
+	}
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<4, 4, T> Matrix<4, 4, T>::Lerp(const Matrix<4, 4, T> &a, const Matrix<4, 4, T> &b, float t)
