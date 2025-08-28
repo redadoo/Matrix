@@ -1,144 +1,166 @@
-#include "Maft.hpp"
+#include "../Maft.hpp"
 #include "../utils/hash.hpp"
 #include "../utils/matrix_utils.hpp"
 
 #include <unordered_map>
+#include <chrono>
 #include <math.h>
+#include <iomanip> 
 
-using namespace Maft;
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#define GLM_ENABLE_EXPERIMENTAL
 
-void test_hash()
-{
-    std::unordered_map<Vector2i, std::string> map2;
-    map2[{1, 2}] = "hello";
-    map2[{3, 4}] = "world";
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/hash.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/gtx/string_cast.hpp>
 
-    for (auto &kv : map2) {
-        std::cout << "vec2(" << kv.first.x << "," << kv.first.y
-                  << ") -> " << kv.second << "\n";
+struct Glm_UniformBufferObject {
+	alignas(16) glm::mat4 model;
+	alignas(16) glm::mat4 view;
+	alignas(16) glm::mat4 proj;
+};
+
+struct Maft_UniformBufferObject {
+    alignas(16) Maft::Matrix4x4f model;
+    alignas(16) Maft::Matrix4x4f view;
+    alignas(16) Maft::Matrix4x4f proj;
+};
+
+std::vector<std::string> splitMat4x4Rows(const glm::mat4& g) {
+    std::vector<std::string> rows;
+    for (int i = 0; i < 4; ++i) {
+        std::ostringstream oss;
+        oss << "[";
+        for (int j = 0; j < 4; ++j) {
+            oss << g[j][i];
+            if (j < 3) oss << ", ";
+        }
+        oss << "]";
+        rows.push_back(oss.str());
     }
-
-    std::unordered_map<Vector3i, int> map3;
-    map3[{1,2,3}] = 42;
-    map3[{4,5,6}] = 99;
-
-    std::cout << "vec3(1,2,3) = " << map3[{1,2,3}] << "\n";
-    std::cout << "vec3(4,5,6) = " << map3[{4,5,6}] << "\n";
+    return rows;
 }
 
-void test_radiant()
-{
+bool compareMatrix(const glm::mat4& g, const Maft::Matrix4x4f& m, float eps = 1e-5f) {
+    bool ok = true;
+
+    for (int row = 0; row < 4; ++row) 
     {
-        float deg = 180.0f;
-        float rad = radians(deg);
-        std::cout << deg << " degrees = " << rad << " radians\n";
-        if (abs(rad - 3.14159265f) < 1e-6f)
-            std::cout << "OK\n";
-        else
-            std::cout << "FAIL\n";
+        for (int col = 0; col < 4; ++col) 
+        {
+            float gv = g[col][row];
+            float mv = m(col, row);
+            if (std::abs(gv - mv) > eps) 
+            {
+                ok = false;
+                std::cout << "Mismatch at (" << row << "," << col << "): "
+                          << gv << " vs " << mv << "\n";
+            }
+        }
     }
 
+    if (!ok) 
     {
-        double deg = 90.0;
-        double rad = radians(deg);
-        std::cout << deg << " degrees = " << rad << " radians\n";
-        if (abs(rad - (M_PI / 2.0)) < 1e-12)
-            std::cout << " OK\n";
-        else
-            std::cout << "FAIL\n";
+        std::cout << "GLM Matrix:\n";
+        auto rows = splitMat4x4Rows(g);
+
+        for (const auto& r : rows) 
+            std::cout << r << std::endl;
+
+        std::cout << "Maft Matrix:\n" << m << std::endl;
     }
 
-    {
-        float deg = 0.0f;
-        float rad = radians(deg);
-        std::cout << deg << " degrees = " << rad << " radians\n";
-    }
-
-    {
-        float deg = -45.0f;
-        float rad = radians(deg);
-        std::cout << deg << " degrees = " << rad << " radians\n";
-    }
+    return ok;
 }
 
-void test_rotation()
-{
-    Matrix<4, 4, float> I = Matrix<4,4,float>::Identity(); 
-    
-    Vector<3, float> axisZ{0.0f, 0.0f, 1.0f};
-    float angle = radians(90.0f);
+bool compareRawLayout(const glm::mat4& g, const Maft::Matrix4x4f& m, float eps = 1e-5f) {
+    const float* gData = &g[0][0];
+    const float* mData = &m(0,0);
 
-    Matrix<4, 4, float> Rz = rotate(I, angle, axisZ);
+    bool ok = true;
+    bool errIndex[16] = {false};
 
-    Vector<4, float> vec{1.0f, 0.0f, 0.0f, 1.0f};
-    Vector<4, float> rotatedVec;
-    
-    for(int i=0; i<4; ++i)
+    for (int i = 0; i < 16; i++) 
     {
-        rotatedVec[i] = 0.0f;
-        for(int j=0; j<4; ++j)
-            rotatedVec[i] += Rz(i,j) * vec[j];
+        if (std::abs(gData[i] - mData[i]) > eps) 
+        {
+            ok = false;
+            errIndex[i] = true;
+            std::cout << "Raw mismatch at index " << i 
+                      << ": " << gData[i] << " vs " << mData[i] << "\n";
+        }
     }
 
-    std::cout << "Original vector: " << vec << "\n";
-    std::cout << "Rotated: " << rotatedVec << "\n";
-}
-
-void test_lookat()
-{
-    Vector<3, float> eye{0.0f, 0.0f, 5.0f};    
-    Vector<3, float> center{0.0f, 0.0f, 0.0f}; 
-    Vector<3, float> up{0.0f, 1.0f, 0.0f};     
-
-    Matrix<4, 4, float> view = lookAtRH(eye, center, up);
-
-    std::cout << "\n" << view << "\n";
-
-    Vector<4, float> target{center.x, center.y, center.z, 1.0f};
-    Vector<4, float> transformed;
-    for(int i=0; i<4; ++i)
+    if (!ok) 
     {
-        transformed[i] = 0.0f;
-        for(int j=0; j<4; ++j)
-            transformed[i] += view(i,j) * target[j];
+        std::cout << "GLM Raw:\n";
+        for (int i = 0; i < 16; i++)
+        {
+            if (errIndex[i])
+                std::cout << "\033[31m" << gData[i] << "\033[0m ";
+            else
+                std::cout << gData[i] << " ";
+        }
+        std::cout << "\n";
+
+        std::cout << "Maft Raw:\n";
+        for (int i = 0; i < 16; i++) {
+            if (errIndex[i])
+                std::cout << "\033[31m" << mData[i] << "\033[0m ";
+            else
+                std::cout << mData[i] << " ";
+        }
+        std::cout << "\n";
+
+        std::cout << "GLM Matrix:\n";
+        auto rows = splitMat4x4Rows(g);
+
+        for (const auto& r : rows) 
+            std::cout << r << std::endl;
+
+        std::cout << "maft matrix\n" << m << std::endl;
     }
-
-    std::cout << transformed << "\n";
-
+    return ok;
 }
 
-void test_perspective()
+
+void test_glm_maft()
 {
-    float fovy   = radians(90.0f); 
-    float aspect = 16.0f / 9.0f;   
-    float zNear  = 0.1f;
-    float zFar   = 100.0f;
+    static auto startTime = std::chrono::high_resolution_clock::now();
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
-    Matrix<4, 4, float> proj = perspectiveRH_ZO(fovy, aspect, zNear, zFar);
+    Glm_UniformBufferObject ubo{};
+    Maft_UniformBufferObject ubo1{};
 
-    std::cout << "\n" << proj << "\n";
+    // glm
+    ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    ubo.view  = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    ubo.proj  = glm::perspective(glm::radians(45.0f), 1.33333f, 0.1f, 10.0f);
+    ubo.proj[1][1] *= -1;
 
-    Vector<4, float> point{0.0f, 0.0f, -1.0f, 1.0f};
-    Vector<4, float> projected;
+    // maft
+    ubo1.model = Maft::rotate(Maft::Matrix4x4f::Identity(), time * Maft::radians(90.0f), Maft::Vector3f(0.0f, 0.0f, 1.0f));
+    ubo1.view  = Maft::lookAt(Maft::Vector3f(2.0f, 2.0f, 2.0f), Maft::Vector3f(0.0f, 0.0f, 0.0f), Maft::Vector3f(0.0f, 0.0f, 1.0f));
+    ubo1.proj  = Maft::perspective(Maft::radians(45.0f), 1.33333f, 0.1f, 10.0f);
+    ubo1.proj(1,1) *= -1;
 
-    for (int i = 0; i < 4; ++i)
-    {
-        projected[i] = 0.0f;
-        for (int j = 0; j < 4; ++j)
-            projected[i] += proj(i, j) * point[j];
-    }
+    std::cout << "Checking MODEL matrix values...\n";
+    compareMatrix(ubo.model, ubo1.model);
+    std::cout << "Checking MODEL raw layout...\n";
+    compareRawLayout(ubo.model, ubo1.model);
 
-    std::cout << projected << "\n";
-}
+    std::cout << "Checking VIEW matrix values...\n";
+    compareMatrix(ubo.view, ubo1.view);
+    std::cout << "Checking VIEW raw layout...\n";
+    compareRawLayout(ubo.view, ubo1.view);
 
-void test_alignment()
-{
-    std::cout << " sizeof(Maft::Matrix4x4f) " << sizeof(Maft::Matrix4x4f) << std::endl;
-
-    Maft::Matrix4x4f test;
-    test(0,0) = 1; test(1,0) = 2; test(2,0) = 3; test(3,0) = 4;
-    test(0,1) = 5; test(1,1) = 6; test(2,1) = 7; test(3,1) = 8;
-
-    float* data = &test(0,0);
-    for(int i=0;i<16;i++) std::cout << data[i] << " ";
+    std::cout << "Checking PROJ matrix values...\n";
+    compareMatrix(ubo.proj, ubo1.proj);
+    std::cout << "Checking PROJ raw layout...\n";
+    compareRawLayout(ubo.proj, ubo1.proj);
 }

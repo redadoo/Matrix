@@ -242,14 +242,14 @@ namespace Maft
 	//  element access
 	
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<3, 3, T>::operator()(std::size_t row, std::size_t col)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<3, 3, T>::operator()(std::size_t col, std::size_t row)
 	{
 		assert(row < 3 && col < 3);
 		return data[col * 3 + row];
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<3, 3, T>::operator()(std::size_t row, std::size_t col) const
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<3, 3, T>::operator()(std::size_t col, std::size_t row) const
 	{
 		assert(row < 3 && col < 3);
 		return data[col * 3 + row];

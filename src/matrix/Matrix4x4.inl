@@ -342,14 +342,14 @@ namespace Maft
 	//  element access
 	
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<4, 4, T>::operator()(std::size_t row, std::size_t col)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<4, 4, T>::operator()(std::size_t col, std::size_t row)
 	{
 		assert(row < 4 && col < 4);
 		return data[col * 4 + row];
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<4, 4, T>::operator()(std::size_t row, std::size_t col) const
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<4, 4, T>::operator()(std::size_t col, std::size_t row) const
 	{
 		assert(row < 4 && col < 4);
 		return data[col * 4 + row];
@@ -829,25 +829,13 @@ namespace Maft
 	{
 		Matrix<4,4,T> r;
 
-		r(0,0) = a(0,0)*b(0,0) + a(0,1)*b(1,0) + a(0,2)*b(2,0) + a(0,3)*b(3,0);
-		r(1,0) = a(1,0)*b(0,0) + a(1,1)*b(1,0) + a(1,2)*b(2,0) + a(1,3)*b(3,0);
-		r(2,0) = a(2,0)*b(0,0) + a(2,1)*b(1,0) + a(2,2)*b(2,0) + a(2,3)*b(3,0);
-		r(3,0) = a(3,0)*b(0,0) + a(3,1)*b(1,0) + a(3,2)*b(2,0) + a(3,3)*b(3,0);
-
-		r(0,1) = a(0,0)*b(0,1) + a(0,1)*b(1,1) + a(0,2)*b(2,1) + a(0,3)*b(3,1);
-		r(1,1) = a(1,0)*b(0,1) + a(1,1)*b(1,1) + a(1,2)*b(2,1) + a(1,3)*b(3,1);
-		r(2,1) = a(2,0)*b(0,1) + a(2,1)*b(1,1) + a(2,2)*b(2,1) + a(2,3)*b(3,1);
-		r(3,1) = a(3,0)*b(0,1) + a(3,1)*b(1,1) + a(3,2)*b(2,1) + a(3,3)*b(3,1);
-
-		r(0,2) = a(0,0)*b(0,2) + a(0,1)*b(1,2) + a(0,2)*b(2,2) + a(0,3)*b(3,2);
-		r(1,2) = a(1,0)*b(0,2) + a(1,1)*b(1,2) + a(1,2)*b(2,2) + a(1,3)*b(3,2);
-		r(2,2) = a(2,0)*b(0,2) + a(2,1)*b(1,2) + a(2,2)*b(2,2) + a(2,3)*b(3,2);
-		r(3,2) = a(3,0)*b(0,2) + a(3,1)*b(1,2) + a(3,2)*b(2,2) + a(3,3)*b(3,2);
-
-		r(0,3) = a(0,0)*b(0,3) + a(0,1)*b(1,3) + a(0,2)*b(2,3) + a(0,3)*b(3,3);
-		r(1,3) = a(1,0)*b(0,3) + a(1,1)*b(1,3) + a(1,2)*b(2,3) + a(1,3)*b(3,3);
-		r(2,3) = a(2,0)*b(0,3) + a(2,1)*b(1,3) + a(2,2)*b(2,3) + a(2,3)*b(3,3);
-		r(3,3) = a(3,0)*b(0,3) + a(3,1)*b(1,3) + a(3,2)*b(2,3) + a(3,3)*b(3,3);
+		for(int row=0; row<4; ++row)
+			for(int col=0; col<4; ++col)
+			{
+				r(row,col) = 0;
+				for(int k=0; k<4; ++k)
+					r(row,col) += a(row,k) * b(k,col);
+			}
 		return r;
 	}
 
@@ -969,12 +957,10 @@ namespace Maft
 	template<typename T>
 	std::ostream& operator<<(std::ostream& os, const Matrix<4, 4, T>& m)
 	{
-		auto fmt = [](T x) { return (abs(x) < 1e-6f) ? T(0) : x; };
-
-		os << "[" << fmt(m(0,0)) << ", " << fmt(m(1,0)) << ", " << fmt(m(2,0)) << ", " << fmt(m(3,0)) << "]\n"
-		   << "[" << fmt(m(0,1)) << ", " << fmt(m(1,1)) << ", " << fmt(m(2,1)) << ", " << fmt(m(3,1)) << "]\n"
-		   << "[" << fmt(m(0,2)) << ", " << fmt(m(1,2)) << ", " << fmt(m(2,2)) << ", " << fmt(m(3,2)) << "]\n"
-		   << "[" << fmt(m(0,3)) << ", " << fmt(m(1,3)) << ", " << fmt(m(2,3)) << ", " << fmt(m(3,3)) << "]";
+		os << "[" << (m(0,0)) << ", " << (m(1,0)) << ", " << (m(2,0)) << ", " << (m(3,0)) << "]\n"
+		   << "[" << (m(0,1)) << ", " << (m(1,1)) << ", " << (m(2,1)) << ", " << (m(3,1)) << "]\n"
+		   << "[" << (m(0,2)) << ", " << (m(1,2)) << ", " << (m(2,2)) << ", " << (m(3,2)) << "]\n"
+		   << "[" << (m(0,3)) << ", " << (m(1,3)) << ", " << (m(2,3)) << ", " << (m(3,3)) << "]";
 		
 		return os;
 	}

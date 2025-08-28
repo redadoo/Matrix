@@ -140,14 +140,14 @@ namespace Maft
 	//  element access
 	
 	template<std::size_t R, std::size_t C, typename T>
-	MAFT_FORCE_INLINE T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col)
+	MAFT_FORCE_INLINE T& Matrix<R, C, T>::operator()(std::size_t col, std::size_t row)
 	{
 		assert(row < R && col < C);
 		return data[col * R + row];
 	}
 
 	template<std::size_t R, std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<R, C, T>::operator()(std::size_t row, std::size_t col) const
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<R, C, T>::operator()(std::size_t col, std::size_t row) const
 	{
 		assert(row < R && col < C);
 		return data[col * R + row];
@@ -349,7 +349,7 @@ namespace Maft
 	template <std::size_t R, std::size_t C, typename T>
 	MAFT_CONSTEXPR Matrix<R, C, T> Matrix<R, C, T>::Identity()
 	{
-		Matrix<R,C,T> I{};
+		Matrix<R,C,T> I{0};
 		for(int i=0;i<C;++i)
 			I(i,i) = T(1);
 		return I;

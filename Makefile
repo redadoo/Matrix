@@ -4,6 +4,7 @@ NAME        := matrix
 # Compiler & Flags
 CXX         := g++
 CXXFLAGS    := -std=c++17 -O3 -Wall -Wextra -Werror
+LDFLAGS     := -lglfw
 
 # Directories
 SRCDIR      := src

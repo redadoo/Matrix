@@ -51,8 +51,8 @@ namespace Maft
 
 		//  element access
 
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator()(std::size_t row, std::size_t col);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator()(std::size_t row, std::size_t col) const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator()(std::size_t col, std::size_t row);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator()(std::size_t col, std::size_t row) const;
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T& operator[](std::size_t index);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator[](std::size_t index) const;
 
