@@ -314,10 +314,8 @@ namespace Maft
     template<typename T>
     MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T> operator-(const Vector<3, T> &m)
     {
-		m.x = -m.x;
-		m.y = -m.y;
-		m.z = -m.z;
-		return m;
+		Vector<3, T> result{-m.x, -m.y, -m.z};
+		return result;
 	}
 
 	// binary operators
