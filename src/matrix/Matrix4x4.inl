@@ -838,9 +838,9 @@ namespace Maft
 		for(int row=0; row<4; ++row)
 			for(int col=0; col<4; ++col)
 			{
-				r(row,col) = 0;
+				r(col,row) = 0;
 				for(int k=0; k<4; ++k)
-					r(row,col) += a(row,k) * b(k,col);
+					r(col,row) += a(k,row) * b(col,k);
 			}
 		return r;
 	}
