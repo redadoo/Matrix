@@ -74,6 +74,13 @@ make run
 ```
 ---
 
+## TO-DO
+
+* check all operator overload
+* enforce naming convention
+* study and implement SIMD
+
+
 ## Resources
 
 * [Essence of linear algebra — 3Blue1Brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
