@@ -70,7 +70,7 @@ namespace Maft
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static T angle_cos(const Vector<4, T>& a, const Vector<4, T>& b);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> cross_product(const Vector<4, T>& a, const Vector<4, T>& b); 
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> Lerp(const Vector<4, T>& a, const Vector<4, T>& b, float t);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> LinearCombination(const std::vector< Vector<4, T> >& vectors, const Vector<4, T>& scalar);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<4, T> LinearCombination(const std::vector< Vector<4, T> >& vectors, const std::vector<T>& scalars);
     };
 	//  unary operators
 

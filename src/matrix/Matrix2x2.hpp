@@ -55,8 +55,9 @@ namespace Maft
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& operator[](std::size_t index) const;
 
 		//  matrix Operations
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR int rank() const;
 
-		MAFT_FORCE_INLINE MAFT_CONSTEXPR void inverse();
+		MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<2, 2, T> inverse() const;
 
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void swap_row();
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void swap_column();

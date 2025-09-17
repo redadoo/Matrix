@@ -98,31 +98,14 @@ namespace Maft
 	template <typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<3, 3, T> &Matrix<3, 3, T>::operator*=(const Matrix<3, 3, T> &other)
 	{
-		this->data[0] *= other.data[0];
-		this->data[1] *= other.data[1];
-		this->data[2] *= other.data[2];
-		this->data[3] *= other.data[3];
-		this->data[4] *= other.data[4];
-		this->data[5] *= other.data[5];
-		this->data[6] *= other.data[6];
-		this->data[7] *= other.data[7];
-		this->data[8] *= other.data[8];
+		this->multiply_matrix(other);
 		return *this;
 	}
 
 	template <typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<3, 3, T> &Matrix<3, 3, T>::operator/=(const Matrix<3, 3, T> &other)
 	{
-		this->data[0] /= other.data[0];
-		this->data[1] /= other.data[1];
-		this->data[2] /= other.data[2];
-		this->data[3] /= other.data[3];
-		this->data[4] /= other.data[4];
-		this->data[5] /= other.data[5];
-		this->data[6] /= other.data[6];
-		this->data[7] /= other.data[7];
-		this->data[8] /= other.data[8];
-		return *this;
+		return *this *= inverse(other);
 	}
 
 	// assignment operators (matrix scalar)
@@ -258,24 +241,66 @@ namespace Maft
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<3, 3, T>::operator[](std::size_t index)
 	{
-		assert(index < 3);
+		assert(index < 9);
 		return data[index];
 	}
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<3, 3, T>::operator[](std::size_t index) const
 	{
-		assert(index < 3);
+		assert(index < 9);
 		return data[index];
 	}
 
 	//  natrix Operations
+	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR int Matrix<3, 3, T>::rank() const
+	{
+		Matrix<3, 3, T> ref = this->row_echelon_no_div();
+		constexpr T epsilon = T(1e-7);
+
+		int rank = 0;
+		for (std::size_t r = 0; r < 3; ++r)
+		{
+			bool nonZeroRow = false;
+			for (std::size_t c = 0; c < 3; ++c)
+			{
+				if (abs(ref(c, r)) > epsilon)
+				{
+					nonZeroRow = true;
+					break;
+				}
+			}
+			if (nonZeroRow) ++rank;
+		}
+		return rank;
+	}
+
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<3, 3, T>::inverse()
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<3, 3, T> Matrix<3, 3, T>::inverse() const
 	{
-		
+		T det = determinant();
+		assert(det != T(0) && "Matrix is singular, cannot invert.");
+
+		Matrix<3, 3, T> inv;
+
+		// Cofactors (row,col)
+		inv(0,0) =  (*this)(1,1)*(*this)(2,2) - (*this)(1,2)*(*this)(2,1);
+		inv(1,0) = -(*this)(1,0)*(*this)(2,2) + (*this)(1,2)*(*this)(2,0);
+		inv(2,0) =  (*this)(1,0)*(*this)(2,1) - (*this)(1,1)*(*this)(2,0);
+
+		inv(0,1) = -(*this)(0,1)*(*this)(2,2) + (*this)(0,2)*(*this)(2,1);
+		inv(1,1) =  (*this)(0,0)*(*this)(2,2) - (*this)(0,2)*(*this)(2,0);
+		inv(2,1) = -(*this)(0,0)*(*this)(2,1) + (*this)(0,1)*(*this)(2,0);
+
+		inv(0,2) =  (*this)(0,1)*(*this)(1,2) - (*this)(0,2)*(*this)(1,1);
+		inv(1,2) = -(*this)(0,0)*(*this)(1,2) + (*this)(0,2)*(*this)(1,0);
+		inv(2,2) =  (*this)(0,0)*(*this)(1,1) - (*this)(0,1)*(*this)(1,0);
+
+		return inv / det;
 	}
+
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<3, 3, T>::Add(const Matrix<3, 3, T>& other)
@@ -397,6 +422,53 @@ namespace Maft
 
 		return res;
 	}
+
+
+	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<3,3,T> Matrix<3,3,T>::row_echelon_no_div() const
+	{
+		Matrix<3,3,T> res(*this);
+		constexpr T eps = std::is_floating_point<T>::value ? T(1e-7) : T(0);
+
+		if (std::abs(res(0,0)) < eps)
+		{
+			if (std::abs(res(0,1)) > eps) res.swap_row(0,1);
+			else if (std::abs(res(0,2)) > eps) res.swap_row(0,2);
+		}
+
+		for (int r = 1; r < 3; ++r)
+		{
+			if (std::abs(res(0,r)) > eps)
+			{
+				T factor = res(0,r) / res(0,0);
+				for (int c = 0; c < 3; ++c)
+					res(c,r) -= factor * res(c,0);
+			}
+		}
+
+		if (std::abs(res(1,1)) < eps && std::abs(res(1,2)) > eps)
+			res.swap_row(1,2);
+
+		if (std::abs(res(1,1)) > eps)
+		{
+			T factor = res(1,2) / res(1,1);
+			for (int c = 1; c < 3; ++c)
+				res(c,2) -= factor * res(c,1);
+		}
+
+		if (std::abs(res(2,2)) < eps)
+			res(2,2) = 0;
+
+		if constexpr (std::is_floating_point<T>::value)
+		{
+			for (int r = 0; r < 3; ++r)
+				for (int c = 0; c < 3; ++c)
+					if (std::abs(res(c,r)) < eps) res(c,r) = 0;
+		}
+
+		return res;
+	}
+
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<3, T> Matrix<3, 3, T>::multiply_vector(const Vector<3, T>& v)

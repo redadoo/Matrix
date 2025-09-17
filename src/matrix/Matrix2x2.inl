@@ -69,21 +69,14 @@ namespace Maft
 	template <typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<2, 2, T> &Matrix<2, 2, T>::operator*=(const Matrix<2, 2, T> &other)
 	{
-		this->data[0] *= other.data[0];
-		this->data[1] *= other.data[1];
-		this->data[2] *= other.data[2];
-		this->data[3] *= other.data[3];
+		this->multiply_matrix(other);
 		return *this;
 	}
 
 	template <typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<2, 2, T> &Matrix<2, 2, T>::operator/=(const Matrix<2, 2, T> &other)
 	{
-		this->data[0] /= other.data[0];
-		this->data[1] /= other.data[1];
-		this->data[2] /= other.data[2];
-		this->data[3] /= other.data[3];
-		return *this;
+		return *this *= inverse(other);
 	}
 
 	// assignment operators (matrix scalar)
@@ -189,25 +182,52 @@ namespace Maft
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T& Matrix<2, 2, T>::operator[](std::size_t index)
 	{
-		assert(index < 2);
+		assert(index < 4);
 		return data[index];
 	}
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR const T& Matrix<2, 2, T>::operator[](std::size_t index) const
 	{
-		assert(index < 2);
+		assert(index < 4);
 		return data[index];
 	}
 
 	//  matrix Operations
+	template<typename T>
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR int Matrix<2, 2, T>::rank() const
+	{
+		constexpr T epsilon = T(1e-7);
+
+		if (abs((*this)(0,0)) < epsilon &&
+			abs((*this)(1,0)) < epsilon &&
+			abs((*this)(0,1)) < epsilon &&
+			abs((*this)(1,1)) < epsilon)
+		{
+			return 0;
+		}
+
+		if (abs(determinant()) > epsilon)
+			return 2;
+
+		return 1;
+	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::inverse()
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Matrix<2, 2, T> Matrix<2, 2, T>::inverse() const
 	{
-		if (determinant() == 0)
-			return;
+		T det = determinant();
+		assert(det != T(0) && "Matrix is singular, cannot invert.");
+
+		Matrix<2, 2, T> inv;
+		inv(0,0) = (*this)(1,1);    // d
+		inv(1,0) = -(*this)(1,0);   // -c
+		inv(0,1) = -(*this)(0,1);   // -b
+		inv(1,1) = (*this)(0,0);    // a
+
+		return inv / det;
 	}
+
 
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR void Matrix<2, 2, T>::Add(const Matrix& other)
@@ -303,10 +323,10 @@ namespace Maft
 	{
 		Matrix<2, 2, T> result;
 
-		result(0,0) = (*this)(0,0) * m(0,0) + (*this)(1,0) * m(0,1);
-		result(1,0) = (*this)(0,1) * m(0,0) + (*this)(1,1) * m(0,1);
-		result(0,1) = (*this)(0,0) * m(1,0) + (*this)(1,0) * m(1,1);
-		result(1,1) = (*this)(0,1) * m(1,0) + (*this)(1,1) * m(1,1);
+		result(0,0) = (*this)(0,0)*m(0,0) + (*this)(0,1)*m(1,0);
+		result(0,1) = (*this)(0,0)*m(0,1) + (*this)(0,1)*m(1,1);
+		result(1,0) = (*this)(1,0)*m(0,0) + (*this)(1,1)*m(1,0);
+		result(1,1) = (*this)(1,0)*m(0,1) + (*this)(1,1)*m(1,1);
 
 		return result;
 	}
@@ -450,24 +470,17 @@ namespace Maft
     template<typename T>
     Matrix<2, 2, T> operator*(const Matrix<2, 2, T> &m1, const Matrix<2, 2, T> &m2)
     {
-		Matrix<2, 2, T> res;
-		res[0] = m1[0] * m2[0];
-		res[1] = m1[1] * m2[1];
-		res[2] = m1[2] * m2[2];
-		res[3] = m1[3] * m2[3];
-
-		return res;
+		return m1.multiply_matrix(m2);
 	}
 
-    template<typename T>
-    Matrix<2, 2, T> operator/(const Matrix<2, 2, T> &m, T scalar)
-    {
+	template<typename T>
+	Matrix<2, 2, T> operator/(const Matrix<2, 2, T> &m, T scalar)
+	{
 		Matrix<2, 2, T> res;
 		res[0] = m[0] / scalar;
 		res[1] = m[1] / scalar;
 		res[2] = m[2] / scalar;
-		res[3] = m[3] / scalar;
-
+		res[3] = m[3] / scalar;  
 		return res;
 	}
 
@@ -486,14 +499,8 @@ namespace Maft
     template<typename T>
     Matrix<2, 2, T> operator/(const Matrix<2, 2, T> &m1, const Matrix<2, 2, T> &m2)
     {
-		Matrix<2, 2, T> res;
-	
-		res[0] = m1[0] / m2[0];
-		res[1] = m1[1] / m2[1];
-		res[2] = m1[2] / m2[2];
-		res[3] = m1[3] / m2[3];
-
-		return res;
+		Matrix<2, 2, T> m1_copy(m1);
+		return m1_copy /= m2;
 	}
 
 	// comparison operators

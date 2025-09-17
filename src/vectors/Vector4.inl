@@ -281,14 +281,14 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<4, T> Vector<4, T>::LinearCombination(const std::vector< Vector<4, T> >& vectors, const Vector<4, T>& scalar)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<4, T> Vector<4, T>::LinearCombination(const std::vector< Vector<4, T> >& vectors, const std::vector<T>& scalars)
 	{
 		Vector<4, T> result{};
 
 		for (size_t i = 0; i < vectors.size(); i++)
 		{
 			Vector<4, T> tmp = vectors[i];
-			tmp.Scale(scalar[i]);
+			tmp.Scale(scalars[i]);
 			result.Add(tmp);
 		}
 		return result;
@@ -303,9 +303,9 @@ namespace Maft
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<4, T>::angle_cos(const Vector<4, T>& a, const Vector<4, T>& b) 
 	{
-		float dot = a.Dot(b);
-		float mag1 = a.norm();
-		float mag2 = b.norm();
+		T dot = a.Dot(b);
+		T mag1 = a.norm();
+		T mag2 = b.norm();
 
 		if (mag1 == 0.0f || mag2 == 0.0f)
 			return 0.0f;

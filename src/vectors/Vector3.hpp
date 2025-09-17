@@ -71,7 +71,7 @@ namespace Maft
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static T angle_cos(const Vector<3, T>& a, const Vector<3, T>& b);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<3, T> cross_product(const Vector<3, T>& a, const Vector<3, T>& b); 
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<3, T> Lerp(const Vector<3, T>& a, const Vector<3, T>& b, float t);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<3, T> LinearCombination(const std::vector< Vector<3, T> >& vectors, const Vector<3, T>& scalar);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<3, T> LinearCombination(const std::vector< Vector<3, T> >& vectors, const std::vector<T>& scalars);
     };
 
 		

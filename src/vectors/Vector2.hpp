@@ -59,19 +59,19 @@ namespace Maft
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Vector<2, T>& other);
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Vector<2, T>& other);
 		
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm() const;
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm_1() const;
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm_inf() const;
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float Dot(const Vector<2, T>& other) const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T norm() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T norm_1() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T norm_inf() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T Dot(const Vector<2, T>& other) const;
 
 
 		// static utility functions
 
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float magnitude(Vector<2, T> vector);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float angle_cos(const Vector<2, T>& a, const Vector<2, T>& b);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static T magnitude(Vector<2, T> vector);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static T angle_cos(const Vector<2, T>& a, const Vector<2, T>& b);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<2, T> cross_product(const Vector<2, T>& a, const Vector<2, T>& b); 
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<2, T> Lerp(const Vector<2, T>& a, const Vector<2, T>& b, float t);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<2, T> LinearCombination(const std::vector< Vector<2, T> >& vectors, const Vector<2, T>& scalar);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<2, T> LinearCombination(const std::vector< Vector<2, T> >& vectors, const std::vector<T>& scalars);
 
     };
 	

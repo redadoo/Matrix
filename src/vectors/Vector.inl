@@ -64,18 +64,18 @@ namespace Maft
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::Dot(const Vector<C, T>& other) const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<C, T>::Dot(const Vector<C, T>& other) const 
 	{
-		float final_value = 0; 
+		T final_value = 0; 
 		for (size_t i = 0; i < C; i++)
 			final_value += data[i] * other.data[i];
 		return final_value;
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::norm() const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<C, T>::norm() const 
 	{
-		float res = 0;
+		T res = 0;
 		for (size_t i = 0; i < C; i++)
 			res += data[i] * data[i];
 		// TODO: remove replace std::sqrt
@@ -83,18 +83,18 @@ namespace Maft
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::norm_1() const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<C, T>::norm_1() const 
 	{
-		float res = 0;
+		T res = 0;
 		for (size_t i = 0; i < C; i++)
 			res += abs(data[i]);
 		return res;
 	}
 
 	template<std::size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::norm_inf() const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<C, T>::norm_inf() const 
 	{
-		float max_val = abs(data[0]);
+		T max_val = abs(data[0]);
 		for (size_t i = 1; i < C; i++)
 			max_val = std::max(max_val, abs(data[i]));
 		return max_val;
@@ -111,34 +111,35 @@ namespace Maft
 	}
 
 	template <size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C,T> Vector<C, T>::LinearCombination(const std::vector< Vector<C,T> >& vectors, const Vector<C,T>& scalar)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<C,T> Vector<C, T>::LinearCombination(const std::vector< Vector<C,T> >& vectors, const std::vector<T>& scalars)
 	{
-		Vector<C,T> result{};
+		assert(vectors.size() == scalars.size() && "Mismatch vectors/scalars size");
 
-		for (size_t i = 0; i < vectors.size(); i++)
+		Vector<C,T> result{};
+		for (size_t i = 0; i < vectors.size(); i++) 
 		{
 			Vector<C,T> tmp = vectors[i];
-			tmp.Scale(scalar[i]);
+			tmp.Scale(scalars[i]);
 			result.Add(tmp);
 		}
 		return result;
 	}
 
 	template <size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::magnitude(Vector<C, float> vector) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<C, T>::magnitude(Vector<C, T> vector) 
 	{
-		float res = 0.0f;
+		T res = 0.0f;
 		for (size_t i = 0; i < vector.size(); i++)
 			res = vector[i] * vector[i];
 		return sqrt(res); 
 	}
 
 	template <size_t C, typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<C, T>::angle_cos(const Vector<C, T>& a, const Vector<C, T>& b) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<C, T>::angle_cos(const Vector<C, T>& a, const Vector<C, T>& b) 
 	{
-		float dot = a.Dot(b);
-		float mag1 = a.norm();
-		float mag2 = b.norm();
+		T dot = a.Dot(b);
+		T mag1 = a.norm();
+		T mag2 = b.norm();
 
 		if (mag1 == 0.0f || mag2 == 0.0f)
 			return 0.0f;

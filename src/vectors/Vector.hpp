@@ -35,16 +35,16 @@ namespace Maft
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Scale(const Vector<C, T>& other);
 		MAFT_FORCE_INLINE MAFT_CONSTEXPR void Subtract(const Vector<C, T>& other);
 
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm() const;
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm_1() const;
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float norm_inf() const;
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR float Dot(const Vector& other) const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T norm() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T norm_1() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T norm_inf() const;
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR T Dot(const Vector& other) const;
 
 		// static functions
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float magnitude(Vector<C, float> vector);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static float angle_cos(const Vector<C, T>& a, const Vector<C, T>& b);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static T magnitude(Vector<C, T> vector);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static T angle_cos(const Vector<C, T>& a, const Vector<C, T>& b);
 		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<C, T> Lerp(const Vector<C, T>& a, const Vector<C, T>& b, float t);
-		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<C, T> LinearCombination(const std::vector< Vector<C,T> >& vectors, const Vector<C,T>& scalar);
+		MAFT_NODISCARD MAFT_FORCE_INLINE MAFT_CONSTEXPR static Vector<C, T> LinearCombination(const std::vector< Vector<C,T> >& vectors, const std::vector<T>& scalars);
 
 		friend std::ostream& operator<< <>(std::ostream& os, const Vector<C, T>& v);
 	};

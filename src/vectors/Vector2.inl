@@ -198,25 +198,25 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<2, T>::Dot(const Vector<2, T>& other) const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<2, T>::Dot(const Vector<2, T>& other) const 
 	{
 		return x * other.x + y * other.y;
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<2, T>::norm() const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<2, T>::norm() const 
 	{
 		return sqrt(x * x + y * y);
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<2, T>::norm_1() const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<2, T>::norm_1() const 
 	{
 		return (abs(x) + abs(y));
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<2, T>::norm_inf() const 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<2, T>::norm_inf() const 
 	{
 		return std::max(abs(x), abs(y));
 	}
@@ -236,14 +236,14 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<2, T> Vector<2, T>::LinearCombination(const std::vector< Vector<2, T> >& vectors, const Vector<2, T>& scalar)
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR Vector<2, T> Vector<2, T>::LinearCombination(const std::vector< Vector<2, T> >& vectors, const std::vector<T>& scalars)
 	{
 		Vector<2, T> result{};
 
 		for (size_t i = 0; i < vectors.size(); i++)
 		{
 			Vector<2, T> tmp = vectors[i];
-			tmp.Scale(scalar[i]);
+			tmp.Scale(scalars[i]);
 			result.Add(tmp);
 		}
 
@@ -251,17 +251,17 @@ namespace Maft
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<2, T>::magnitude(Vector<2, T> vector) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<2, T>::magnitude(Vector<2, T> vector) 
 	{
 		return sqrt(vector.x * vector.x + vector.y * vector.y); 
 	}
 
 	template<typename T>
-	MAFT_FORCE_INLINE MAFT_CONSTEXPR float Vector<2, T>::angle_cos(const Vector<2, T>& a, const Vector<2, T>& b) 
+	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<2, T>::angle_cos(const Vector<2, T>& a, const Vector<2, T>& b) 
 	{
-		float dot = a.Dot(b);
-		float mag1 = a.norm();
-		float mag2 = b.norm();
+		T dot = a.Dot(b);
+		T mag1 = a.norm();
+		T mag2 = b.norm();
 
 		if (mag1 == 0.0f || mag2 == 0.0f)
 			return 0.0f;

@@ -6,10 +6,11 @@ CXX         := g++
 CXXFLAGS    := -std=c++17 -O3 -Wall -Wextra -Werror
 LDFLAGS     := -lglfw
 
-# Directories
+# Directories and file
 SRCDIR      := src
 OBJDIR      := .obj
 INCDIRS     := src src/vectors src/matrix src/test src/utils
+TEST_FILE   := maft_test
 
 # Source files
 SRCFILES    := main.cpp
@@ -45,6 +46,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 run: $(NAME)
 	@./$(NAME)
 
+test:
+	@./$(NAME) > $(TEST_FILE)
+
 leaks: $(NAME)
 	valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./$(NAME)
 
@@ -53,6 +57,7 @@ clean:
 	@echo "$(GRAY)✗ Object files cleaned$(RESET)"
 
 fclean: clean
+	@rm -f  $(TEST_FILE)
 	@rm -f $(NAME)
 	@echo "$(GRAY)✗ Binary cleaned$(RESET)"
 
