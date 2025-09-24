@@ -36,7 +36,7 @@ using namespace Maft;
 
 void print_colored_test(const char * test_name, const char * color)
 {
-	std::cout << RESET << color << "===== Test " << test_name << "=====\n" << RESET;
+	std::cout << RESET << color << "===== Test " << test_name << "=====\n" << RESET << "\n";
 }
 
 void test_vector_operations() 
@@ -814,62 +814,62 @@ void test_rank()
 	}
 
 	//TODO: fix
+	{
+		Matrix<3, 4, float> u{
+			1.0f, 2.0f, 0.0f, 0.0f,
+			2.0f, 4.0f, 0.0f, 0.0f,
+		   -1.0f, 2.0f, 1.0f, 1.0f
+		};
+		std::cout << u << "\n\n";
+		auto rank = u.rank();
+		TEST_ASSERT(rank == 2);
+	}
+
+	{
+		Matrix<4, 3, float> u{
+			 8.f,  5.f, -2.f,
+			 4.f,  7.f, 20.f,
+			 7.f,  6.f,  1.f,
+			21.f, 18.f,  7.f
+		};
+		std::cout << u << "\n\n";
+		auto rank = u.rank();
+		TEST_ASSERT(rank == 3);
+	}
+
 	// {
-	// 	Matrix<3, 4, float> u{
-	// 		1.0f, 2.0f, 0.0f, 0.0f,
-	// 		2.0f, 4.0f, 0.0f, 0.0f,
-	// 	   -1.0f, 2.0f, 1.0f, 1.0f
+	// 	Matrix3x3f u{
+	// 		0.f, 0.f, 0.f,
+	// 		0.f, 0.f, 0.f,
+	// 		0.f, 0.f, 0.f
 	// 	};
+	// 	std::cout << u << "\n\n";
+	// 	auto rank = u.rank();
+	// 	TEST_ASSERT(rank == 0);
+	// }
+
+	// {
+	// 	Matrix3x3f u{
+	// 		1.f, 2.f, 3.f,
+	// 		4.f, 5.f, 6.f,
+	// 		5.f, 7.f, 9.f
+	// 	};
+
 	// 	std::cout << u << "\n\n";
 	// 	auto rank = u.rank();
 	// 	TEST_ASSERT(rank == 2);
 	// }
 
 	// {
-	// 	Matrix<4, 3, float> u{
-	// 		 8.f,  5.f, -2.f,
-	// 		 4.f,  7.f, 20.f,
-	// 		 7.f,  6.f,  1.f,
-	// 		21.f, 18.f,  7.f
+	// 	Matrix<2, 4, float> u{
+	// 		1.f, 0.f, 1.f, 0.f,
+	// 		0.f, 1.f, 0.f, 1.f
 	// 	};
+
 	// 	std::cout << u << "\n\n";
 	// 	auto rank = u.rank();
-	// 	TEST_ASSERT(rank == 3);
+	// 	TEST_ASSERT(rank == 2);
 	// }
-
-	{
-		Matrix3x3f u{
-			0.f, 0.f, 0.f,
-			0.f, 0.f, 0.f,
-			0.f, 0.f, 0.f
-		};
-		std::cout << u << "\n\n";
-		auto rank = u.rank();
-		TEST_ASSERT(rank == 0);
-	}
-
-	{
-		Matrix3x3f u{
-			1.f, 2.f, 3.f,
-			4.f, 5.f, 6.f,
-			5.f, 7.f, 9.f
-		};
-
-		std::cout << u << "\n\n";
-		auto rank = u.rank();
-		TEST_ASSERT(rank == 2);
-	}
-
-	{
-		Matrix<2, 4, float> u{
-			1.f, 0.f, 1.f, 0.f,
-			0.f, 1.f, 0.f, 1.f
-		};
-
-		std::cout << u << "\n\n";
-		auto rank = u.rank();
-		TEST_ASSERT(rank == 2);
-	}
 }
 
 void all_test()
