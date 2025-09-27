@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Matrix.hpp"
+#include <immintrin.h>
 
 namespace Maft
 {

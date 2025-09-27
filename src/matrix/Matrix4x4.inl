@@ -804,12 +804,29 @@ namespace Maft
 	{
 		Matrix<4, 4, T> r;
 
-		for (int col = 0; col < 4; ++col) 
-		{
+		for (int col = 0; col < 4; ++col) {
+			// Load column of B
+			__m128 bcol = _mm_loadu_ps(&b(col, 0));
+
 			for (int row = 0; row < 4; ++row) 
 			{
-				const T a0 = a(0, row), a1 = a(1, row), a2 = a(2, row), a3 = a(3, row);
-				r(col, row) = a0 * b(col, 0) + a1 * b(col, 1) + a2 * b(col, 2) + a3 * b(col, 3);
+				__m128 arow0 = _mm_set1_ps(a(0, row));
+				__m128 arow1 = _mm_set1_ps(a(1, row));
+				__m128 arow2 = _mm_set1_ps(a(2, row));
+				__m128 arow3 = _mm_set1_ps(a(3, row));
+
+				__m128 b0 = _mm_loadu_ps(&b(0, col));
+				__m128 b1 = _mm_loadu_ps(&b(1, col));
+				__m128 b2 = _mm_loadu_ps(&b(2, col));
+				__m128 b3 = _mm_loadu_ps(&b(3, col));
+
+				__m128 sum = _mm_add_ps
+				(
+					_mm_add_ps(_mm_mul_ps(arow0, b0), _mm_mul_ps(arow1, b1)),
+					_mm_add_ps(_mm_mul_ps(arow2, b2), _mm_mul_ps(arow3, b3))
+				);
+
+				_mm_storeu_ps(&r(col, row), sum);
 			}
 		}
 
