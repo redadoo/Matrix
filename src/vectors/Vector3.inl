@@ -287,7 +287,7 @@ namespace Maft
 	template<typename T>
 	MAFT_FORCE_INLINE MAFT_CONSTEXPR T Vector<3, T>::magnitude(const Vector<3, T>& vector) 
 	{
-		return sqrt(vector.x * vector.x + vector.y * vector.y); 
+		return sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z); 
 	}
 
 	template<typename T>
