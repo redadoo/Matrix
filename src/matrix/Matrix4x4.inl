@@ -802,35 +802,18 @@ namespace Maft
 	template<typename T>
 	Matrix<4, 4, T> operator*(const Matrix<4, 4, T>& a, const Matrix<4, 4, T>& b)
 	{
-		Matrix<4, 4, T> r;
+	    Matrix<4,4,float> r;
 
-		for (int col = 0; col < 4; ++col) {
-			// Load column of B
-			__m128 bcol = _mm_loadu_ps(&b(col, 0));
-
-			for (int row = 0; row < 4; ++row) 
+		for(int col = 0; col < 4; ++col) 
+		{
+			__m128 bcol = _mm_loadu_ps(&b.data[col*4]);
+			for(int row = 0; row < 4; ++row) 
 			{
-				__m128 arow0 = _mm_set1_ps(a(0, row));
-				__m128 arow1 = _mm_set1_ps(a(1, row));
-				__m128 arow2 = _mm_set1_ps(a(2, row));
-				__m128 arow3 = _mm_set1_ps(a(3, row));
-
-				__m128 b0 = _mm_loadu_ps(&b(0, col));
-				__m128 b1 = _mm_loadu_ps(&b(1, col));
-				__m128 b2 = _mm_loadu_ps(&b(2, col));
-				__m128 b3 = _mm_loadu_ps(&b(3, col));
-
-				__m128 sum = _mm_add_ps
-				(
-					_mm_add_ps(_mm_mul_ps(arow0, b0), _mm_mul_ps(arow1, b1)),
-					_mm_add_ps(_mm_mul_ps(arow2, b2), _mm_mul_ps(arow3, b3))
-				);
-
-				_mm_storeu_ps(&r(col, row), sum);
+				__m128 arow = _mm_set1_ps(a(row,0));
+				arow = _mm_mul_ps(arow, _mm_set_ps(a(row,3), a(row,2), a(row,1), a(row,0)));
+				r(col,row) = a(row,0)*b(0,col) + a(row,1)*b(1,col) + a(row,2)*b(2,col) + a(row,3)*b(3,col);
 			}
 		}
-
-		return r;
 	}
 
 
