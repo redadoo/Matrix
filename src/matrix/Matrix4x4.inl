@@ -800,19 +800,22 @@ namespace Maft
 	}
 
 	template<typename T>
-	Matrix<4, 4, T> operator*(const Matrix<4, 4, T> &a, const Matrix<4, 4, T> &b)
+	Matrix<4, 4, T> operator*(const Matrix<4, 4, T>& a, const Matrix<4, 4, T>& b)
 	{
-		Matrix<4,4,T> r;
+		Matrix<4, 4, T> r;
 
-		for(int row=0; row<4; ++row)
-			for(int col=0; col<4; ++col)
+		for (int col = 0; col < 4; ++col) 
+		{
+			for (int row = 0; row < 4; ++row) 
 			{
-				r(col,row) = 0;
-				for(int k=0; k<4; ++k)
-					r(col,row) += a(k,row) * b(col,k);
+				const T a0 = a(0, row), a1 = a(1, row), a2 = a(2, row), a3 = a(3, row);
+				r(col, row) = a0 * b(col, 0) + a1 * b(col, 1) + a2 * b(col, 2) + a3 * b(col, 3);
 			}
+		}
+
 		return r;
 	}
+
 
 	template<typename T>
 	Matrix<4, 4, T> operator/(const Matrix<4, 4, T> &m, T scalar)
