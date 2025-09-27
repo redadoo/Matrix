@@ -802,19 +802,20 @@ namespace Maft
 	template<typename T>
 	Matrix<4, 4, T> operator*(const Matrix<4, 4, T>& a, const Matrix<4, 4, T>& b)
 	{
-	    Matrix<4,4,float> r;
+		Matrix<4, 4, T> r;
 
-		for(int col = 0; col < 4; ++col) 
+		for (int col = 0; col < 4; ++col) 
 		{
-			__m128 bcol = _mm_loadu_ps(&b.data[col*4]);
-			for(int row = 0; row < 4; ++row) 
+			for (int row = 0; row < 4; ++row) 
 			{
-				__m128 arow = _mm_set1_ps(a(row,0));
-				arow = _mm_mul_ps(arow, _mm_set_ps(a(row,3), a(row,2), a(row,1), a(row,0)));
-				r(col,row) = a(row,0)*b(0,col) + a(row,1)*b(1,col) + a(row,2)*b(2,col) + a(row,3)*b(3,col);
+				const T a0 = a(0, row), a1 = a(1, row), a2 = a(2, row), a3 = a(3, row);
+				r(col, row) = a0 * b(col, 0) + a1 * b(col, 1) + a2 * b(col, 2) + a3 * b(col, 3);
 			}
 		}
+
+		return r;
 	}
+
 
 
 	template<typename T>
